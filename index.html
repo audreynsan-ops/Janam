@@ -746,23 +746,23 @@ footer{background:var(--t);padding:40px 48px;display:flex;
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">Peut-on venir avec son bébé ?</div>
+        <div class="faq-q" role="button" tabindex="0">Peut-on venir avec son bébé ?</div>
         <div class="faq-a">La retraite JANAM est un séjour sans bébé. C'est un choix assumé : pour récupérer vraiment, votre corps et votre esprit ont besoin d'un espace où vous n'êtes responsable de personne d'autre que vous-même. C'est souvent la première fois depuis la naissance que les mamans vivent ça — et c'est exactement le but.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">À partir de quand peut-on venir après l'accouchement ?</div>
+        <div class="faq-q" role="button" tabindex="0">À partir de quand peut-on venir après l'accouchement ?</div>
         <div class="faq-a">Le séjour est accessible à partir de 6 semaines post-partum. La fenêtre idéale est entre 6 semaines et 6 mois après la naissance.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">Le bengkung est-il obligatoire ?</div>
+        <div class="faq-q" role="button" tabindex="0">Le bengkung est-il obligatoire ?</div>
         <div class="faq-a">Non. Aucun soin n'est obligatoire. Vous êtes libre de participer à ce qui vous convient, à votre rythme.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">Que comprend le prix de 1 390€ ?</div>
+        <div class="faq-q" role="button" tabindex="0">Que comprend le prix de 1 390€ ?</div>
         <div class="faq-a">L'hébergement, tous les repas, les massages individuels (45 min), la séance bengkung (atelier + pose individuelle 60 min), l'accès spa privatif (2 séances), l'atelier retour à la maison, et le kit JANAM complet.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">Comment rejoindre la liste d'attente ?</div>
+        <div class="faq-q" role="button" tabindex="0">Comment rejoindre la liste d'attente ?</div>
         <div class="faq-a">Remplissez le formulaire en cliquant sur "Rejoindre la liste d'attente". Nous vous contacterons en priorité dès l'ouverture officielle des réservations. Aucun paiement n'est requis à ce stade — les règlements s'effectueront à l'ouverture officielle.</div>
       </div>
     </div>
@@ -816,8 +816,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // FAQ
   document.querySelectorAll('.faq-q').forEach(function(q) {
-    q.addEventListener('click', function() {
-      this.parentNode.classList.toggle('open');
+    q.addEventListener('click', function(e) {
+      e.preventDefault();
+      var item = this.closest('.faq-item') || this.parentNode;
+      item.classList.toggle('open');
+    });
+    q.addEventListener('keydown', function(e) {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        var item = this.closest('.faq-item') || this.parentNode;
+        item.classList.toggle('open');
+      }
     });
   });
 
