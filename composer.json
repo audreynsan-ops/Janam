@@ -1,0 +1,304 @@
+{
+    "name": "aion-solutions/a12sfactory-project",
+    "type": "project",
+    "description": "Project template for A12S Factory projects with composer",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Aïon Solutions",
+            "homepage": "https://www.aion-solutions.lu",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "composer/installers": "^2.3",
+        "drupal/a12s": "^2.0",
+        "drupal/ace_editor": "^2.0",
+        "drupal/admin_toolbar": "^3.6",
+        "drupal/antibot": "^2.0",
+        "drupal/draggableviews": "^2.1",
+        "drupal/email_registration": "^2.0@RC",
+        "drupal/field_group": "^4.0",
+        "drupal/pathauto": "^1.14",
+        "drupal/realname": "^2.0",
+        "drupal/spamspan": "^3.2",
+        "drupal/symfony_mailer": "^2.0",
+        "drupal/webform": "^6.3",
+        "npm-asset/ace-builds": "~1.0",
+        "oomphinc/composer-installers-extender": "^1.0 | ^2.0"
+    },
+    "require-dev": {
+        "aion-solutions/a12s_drupal_compiler": "2.0.x-dev",
+        "drupal/core-dev": "*",
+        "drupal/devel_entity_updates": "^5.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "classmap": [
+            "scripts/composer/CopyPatches.php"
+        ]
+    },
+    "config": {
+        "component-dir": "/tmp",
+        "sort-packages": true,
+        "allow-plugins": {
+            "aion-solutions/a12s_drupal_compiler": true,
+            "aion-solutions/a12sfactory-project": true,
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "oomphinc/composer-installers-extender": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "symfony/runtime": true,
+            "tbachert/spi": true
+        }
+    },
+    "extra": {
+        "composer-exit-on-patch-failure": true,
+        "a12s_compiler": {
+            "node-modules-path": "../node_modules",
+            "sources-path": "web/themes/custom/janam2026"
+        },
+        "drupal-scaffold": {
+            "allowed-packages": [
+                "drupal/core",
+                "aion-solutions/a12sfactory-project"
+            ],
+            "file-mapping": {
+                "[web-root]/.ht.router.php": false,
+                "[web-root]/.htaccess": false,
+                "[web-root]/example.gitignore": false,
+                "[web-root]/INSTALL.txt": false,
+                "[web-root]/modules/README.txt": false,
+                "[web-root]/profiles/README.txt": false,
+                "[web-root]/README.md": false,
+                "[web-root]/robots.txt": {
+                    "append": "config/default/robots-additions.txt"
+                },
+                "[web-root]/sites/default/default.services.yml": false,
+                "[web-root]/sites/default/services.yml": {
+                    "path": "assets/scaffold/files/default.services.yml",
+                    "overwrite": false
+                },
+                "[web-root]/sites/default/settings.development.php": false,
+                "[web-root]/sites/default/settings.local.php": {
+                    "path": "assets/scaffold/files/example.settings.local.php",
+                    "overwrite": false
+                },
+                "[web-root]/sites/default/settings.php": {
+                    "path": "assets/scaffold/files/default.settings.php",
+                    "overwrite": false
+                },
+                "[web-root]/sites/development.services.yml": {
+                    "path": "assets/scaffold/files/development.services.yml",
+                    "overwrite": false
+                },
+                "[web-root]/sites/example.settings.local.php": false,
+                "[web-root]/sites/example.sites.php": false,
+                "[web-root]/sites/README.txt": false,
+                "[web-root]/sites/sites.php": false,
+                "[web-root]/themes/README.txt": false,
+                "[web-root]/update.php": false,
+                "[web-root]/web.config": false,
+                "[project-root]/.gitignore": {
+                    "path": "assets/scaffold/files/default.gitignore",
+                    "overwrite": false
+                },
+                "[project-root]/.dockerignore": {
+                    "path": "assets/scaffold/files/default.dockerignore",
+                    "overwrite": false
+                },
+                "[project-root]/base-services.yml": {
+                    "path": "assets/scaffold/files/base-services.yml",
+                    "overwrite": false
+                },
+                "[project-root]/drush/drush.yml": {
+                    "path": "assets/scaffold/files/drush.yml",
+                    "overwrite": false
+                },
+                "[project-root]/docker-compose.yml": {
+                    "path": "assets/scaffold/files/docker-compose.yml",
+                    "overwrite": false
+                },
+                "[project-root]/docker-compose.override.yml": {
+                    "path": "assets/scaffold/files/docker-compose.override.yml",
+                    "overwrite": false
+                },
+                "[project-root]/.env.example": {
+                    "path": "assets/scaffold/files/env.example",
+                    "overwrite": false
+                },
+                "[project-root]/.github/actions/docker-build/action.yml": {
+                    "path": "assets/scaffold/files/github/docker-build-action.yml",
+                    "overwrite": false
+                },
+                "[project-root]/.github/workflows/build-services.yml": {
+                    "path": "assets/scaffold/files/github/workflow-build-services.yml",
+                    "overwrite": false
+                },
+                "[project-root]/local/99-render-config.sh": {
+                    "path": "assets/scaffold/files/local/99-render-config.sh",
+                    "overwrite": false
+                },
+                "[project-root]/local/composer.Dockerfile": {
+                    "path": "assets/scaffold/files/local/composer.Dockerfile",
+                    "overwrite": false
+                },
+                "[project-root]/local/bash_history.txt": {
+                    "path": "assets/scaffold/files/local/default.bash_history",
+                    "overwrite": false
+                },
+                "[project-root]/local/98-nginx-user.sh": {
+                    "path": "assets/scaffold/files/local/98-nginx-user.sh",
+                    "overwrite": false
+                },
+                "[project-root]/local/php-entrypoint.sh": {
+                    "path": "assets/scaffold/files/local/php-entrypoint.sh",
+                    "overwrite": false
+                },
+                "[project-root]/local/99-local-php.ini": {
+                    "path": "assets/scaffold/files/local/99-local-php.ini",
+                    "overwrite": false
+                },
+                "[project-root]/patches/README.md": {
+                    "path": "assets/scaffold/files/README-patches.md",
+                    "overwrite": false
+                },
+                "[project-root]/services/README.md": {
+                    "path": "assets/scaffold/files/services/README.md",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/.dockerignore": {
+                    "path": "assets/scaffold/files/services/nginx/dockerignore",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/Dockerfile": {
+                    "path": "assets/scaffold/files/services/nginx/Dockerfile",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/nginx.conf": {
+                    "path": "assets/scaffold/files/services/nginx/nginx.conf",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/static-error-pages/.gitignore": {
+                    "path": "assets/scaffold/files/services/nginx/static-error-pages/default.gitignore",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/static-error-pages/401.html": {
+                    "path": "assets/scaffold/files/services/nginx/static-error-pages/401.html",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/static-error-pages/403.html": {
+                    "path": "assets/scaffold/files/services/nginx/static-error-pages/403.html",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/static-error-pages/404.html": {
+                    "path": "assets/scaffold/files/services/nginx/static-error-pages/404.html",
+                    "overwrite": false
+                },
+                "[project-root]/services/nginx/static-error-pages/50x.html": {
+                    "path": "assets/scaffold/files/services/nginx/static-error-pages/50x.html",
+                    "overwrite": false
+                },
+                "[project-root]/services/php/.dockerignore": {
+                    "path": "assets/scaffold/files/services/php/dockerignore",
+                    "overwrite": false
+                },
+                "[project-root]/services/php/Dockerfile": {
+                    "path": "assets/scaffold/files/services/php/Dockerfile",
+                    "overwrite": false
+                },
+                "[project-root]/services/php/Dockerfile-xdebug": {
+                    "path": "assets/scaffold/files/services/php/Dockerfile-xdebug",
+                    "overwrite": false
+                },
+                "[project-root]/services/php/php.ini": {
+                    "path": "assets/scaffold/files/services/php/php.ini",
+                    "overwrite": false
+                },
+                "[project-root]/services/php/www.conf": {
+                    "path": "assets/scaffold/files/services/php/www.conf",
+                    "overwrite": false
+                },
+                "[project-root]/services/php/xdebug.ini": {
+                    "path": "assets/scaffold/files/services/php/xdebug.ini",
+                    "overwrite": false
+                }
+            },
+            "gitignore": false,
+            "locations": {
+                "web-root": "web/"
+            }
+        },
+        "enable-patching": true,
+        "installer-paths": {
+            "drush/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/ace": [
+                "npm-asset/ace-builds"
+            ],
+            "web/libraries/{$name}": [
+                "type:bower-asset",
+                "type:npm-asset",
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "docroot/recipes/contrib/{$name}": [
+                "type:drupal-recipe"
+            ]
+        },
+        "installer-types": [
+            "drupal-recipe",
+            "npm-asset",
+            "bower-asset"
+        ],
+        "patchLevel": {
+            "drupal/core": "-p2"
+        }
+    },
+    "repositories": {
+        "aion-solutions": {
+            "type": "path",
+            "url": "../packages/*",
+            "symlink": true
+        },
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "assets": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    },
+    "scripts": {
+        "pre-install-cmd": [
+            "A12s\\Composer\\CopyPatches::initConfiguration"
+        ],
+        "pre-update-cmd": [
+            "A12s\\Composer\\CopyPatches::initConfiguration"
+        ],
+        "post-drupal-scaffold-cmd": [
+            "chmod 754 local/98-nginx-user.sh local/99-render-config.sh"
+        ]
+    },
+    "scripts-descriptions": {
+        "copy-patches": "Copies patches from dependencies (default: aion-solutions/a12sfactory) to the root patches folder, so 'composer-patches' plugin car execute them.\nUsage:\ncomposer run-script copy-patches -- vendor/package\nUsage in composer.json:\n\"scripts\": { \"post-install-cmd\": \"@copy-patches aion-solutions/a12sfactory, another/package\" }"
+    }
+}

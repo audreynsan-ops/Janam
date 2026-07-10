@@ -1,0 +1,22 @@
+uuid: 5c9383e0-b3af-49f9-8b93-92f7b4583b39
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - janam2026
+_core:
+  default_config_hash: x_yFV4zBCxvhlU1Vms-8721abMt9kDgrviKh5wHdKOc
+id: janam2026_breadcrumbs
+theme: janam2026
+region: highlighted
+weight: -4
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: "Fils d'ariane"
+  label_display: '0'
+  provider: system
+visibility: {  }

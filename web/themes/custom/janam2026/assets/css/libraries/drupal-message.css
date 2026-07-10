@@ -1,0 +1,62 @@
+html.js #block-a12s-basetheme-messages {
+  display: none;
+}
+
+html.js .ui-dialog #block-a12s-basetheme-messages {
+  display: block;
+  overflow-y: auto;
+}
+
+.drupal-message-dialog-toggle {
+  bottom: 15px;
+  left: 40px;
+  opacity: 0.9;
+  z-index: 1;
+}
+.drupal-message-dialog-toggle a {
+  cursor: pointer;
+  height: 35px;
+  text-decoration: none;
+  width: 35px;
+}
+.drupal-message-dialog-toggle a i {
+  color: var(--white);
+  font-size: 1.1rem;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.drupal-message-dialog-toggle a i:hover {
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.drupal-message-dialog-toggle .count-messages {
+  top: -10px;
+  left: 75%;
+  font-size: 0.75rem;
+}
+.drupal-message-dialog-toggle .count-messages span {
+  padding: 0 0.2rem;
+  z-index: 10;
+}
+.drupal-message-dialog-toggle .count-messages span:before {
+  background-color: var(--error);
+  border-radius: var(--border-radius);
+  content: "";
+  height: 17px;
+  left: 50%;
+  min-width: 17px;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: -1;
+}
+
+[data-drupal-messages] ul {
+  list-style: none;
+  padding-left: 0;
+}
+/*# sourceMappingURL=drupal-message.css.map */

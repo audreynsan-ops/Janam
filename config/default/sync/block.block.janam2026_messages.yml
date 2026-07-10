@@ -1,0 +1,22 @@
+uuid: b90983da-c68a-4ed1-8b64-394c0b213d17
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - janam2026
+_core:
+  default_config_hash: Toq7tZbFrAmrwHbv-0lQIhKy9rEHwaCFurOgCQTUiZw
+id: janam2026_messages
+theme: janam2026
+region: highlighted
+weight: -3
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Messages de statut'
+  label_display: '0'
+  provider: system
+visibility: {  }

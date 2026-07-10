@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file
+ * Functions to support theming in the base theme.
+ */
+
+use Drupal\Core\Url;
+use Drupal\symfony_mailer\Attachment;
+
+/**
+ * @see hook_preprocess_HOOK()
+ */
+function janam2026_preprocess_block__system_branding_block(array &$variables): void {
+    $variables['#attached']['library'][] = 'janam2026/branding';
+}
+
+/**
+ * @see hook_preprocess_HOOK()
+ */
+function janam2026_preprocess_email(array &$variables): void {
+  $site_config = \Drupal::config('system.site');
+  $variables['image_path'] = \Drupal::service('extension.list.theme')->getPath('janam2026') . '/src/images/email';
+  $variables['site_name'] = $site_config->get('name');
+  $variables['site_url'] = Url::fromRoute('<front>', [], [
+    'absolute' => TRUE,
+  ])->toString();
+
+  /** @var \Drupal\symfony_mailer\Email $email */
+  $email = $variables['email'];
+  $logo = \Drupal::service('file_url_generator')->generateString($variables['image_path'] . '/logo.png');
+  $variables['logo'] = $logo;
+  $email->attach(Attachment::fromPath($logo, isUri: TRUE));
+}

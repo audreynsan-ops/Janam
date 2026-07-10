@@ -1,0 +1,20 @@
+uuid: 041c9d77-90f0-456a-9c3a-10fcce6e71a9
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - janam2026
+_core:
+  default_config_hash: FCpEU5qJOF77wrvlG4ZVwW24kFYITishyXXy9RV5vIE
+id: janam2026_local_actions
+theme: janam2026
+region: highlighted
+weight: -2
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: "Actions d'administration principales"
+  label_display: '0'
+  provider: core
+visibility: {  }

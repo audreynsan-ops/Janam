@@ -1,0 +1,17 @@
+@use "abstract/variables/stack-icons-settings";
+@use "abstract/mixins/stack-icons";
+@use "abstract/variables/stack-icons-root";
+
+.#{stack-icons-settings.$stack-icon-base-class} {
+  @include stack-icons.stack-icon-base($height: 48px, $width: 48px);
+}
+
+.#{stack-icons-settings.$stack-icon-base-class}--replace {
+  @include stack-icons.stack-icon-replace();
+}
+
+@each $alias, $id in stack-icons-settings.$stack-icon--names {
+  .#{$id} {
+    mask-image: var(#{'--' + $id + '-url'});
+  }
+}

@@ -1,0 +1,3006 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SVG stack preview | svg-sprite</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      color: #666;
+      background: #fafafa;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1em;
+      line-height: 1.4;
+    }
+
+    header {
+      display: block;
+      padding: 3em 3em 2em;
+      background-color: #fff;
+    }
+
+    header p {
+      margin: 2em 0 0;
+    }
+
+    dt {
+      font-weight: bold;
+      margin-bottom: .5rem;
+    }
+
+    dd {
+      margin-bottom: 1rem;
+    }
+
+    section {
+      border-top: 1px solid #eee;
+      padding: 2em 3em 0;
+    }
+
+    section ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    section li {
+      display: inline-block;
+      background-color: #fff;
+      position: relative;
+      margin: 0 2em 2em 0;
+      vertical-align: top;
+      border: 1px solid #ccc;
+      padding: 1em 1em 3em;
+      cursor: default;
+    }
+
+    .icon-box {
+      margin: 0;
+      width: 144px;
+      height: 144px;
+      position: relative;
+      background: #ccc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cpath fill='%23fff' d='M6 0h6v6H6zM0 6h6v6H0z'/%3E%3C/svg%3E") top left repeat;
+      border: 1px solid #ccc;
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .popover {
+      background: linear-gradient(135deg, #3657EB, #2e4bc4);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 12px;
+      padding: .6rem 1.2rem;
+      transition: all .2s ease;
+    }
+
+    .popover:hover {
+      box-shadow: 0 8px 20px rgba(54, 87, 235, .3);
+      transform: translateY(-2px);
+    }
+
+    .popover:active {
+      transform: translateY(0);
+    }
+
+    div[popover] {
+      max-height: calc(100vh - 6rem);
+      max-width: 960px;
+      padding: 2rem;
+      width: calc(100vw - 6rem);
+
+      /* Styling */
+      background-color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .15);
+
+      /* Animation */
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+      transition: opacity .3s cubic-bezier(.4, 0, .2, 1),
+      transform .3s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    div[popover]:popover-open {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    div[popover]::backdrop {
+      backdrop-filter: blur(4px);
+      background-color: rgba(0, 0, 0, .4);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    div[popover]:popover-open::backdrop {
+      opacity: 1;
+    }
+
+    div[popover] .popover-inner {
+      columns: 2;
+      gap: 2rem;
+    }
+
+    div[popover] .popover-icon-box {
+      break-inside: avoid-column;
+      margin-bottom: 2rem;
+    }
+
+    div[popover] code {
+      background-color: #f5f5f5;
+      border-left: 3px solid #3657EB;
+      border-radius: 8px;
+      display: block;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: .75rem;
+      overflow-x: auto;
+      padding: .75rem;
+    }
+
+    div[popover] pre {
+      font-size: .75rem;
+    }
+
+    div[popover] h3 {
+      color: #333;
+      font-size: 1.1em;
+      margin: 1.5rem 0 .5rem;
+    }
+
+    div[popover] h3:first-child {
+      margin-top: 0;
+    }
+
+    div[popover] p {
+      color: #777;
+      line-height: 1.6;
+      margin: .75rem 0;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 1em;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: absolute;
+      left: 1em;
+      right: 1em;
+      bottom: 1em;
+    }
+
+    footer {
+      display: block;
+      margin: 0;
+      padding: 0 3em 3em;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: .7em;
+    }
+
+    footer a {
+      color: #0f7595;
+      margin-left: 0;
+    }
+  </style>
+
+  <!--
+  Sprite CSS
+  ====================================================================================================
+  -->
+
+  <style>
+    :root {
+      --stack-icon-account-url: url("icons.svg?5637fca1#account");
+      --stack-icon-android-url: url("icons.svg?5637fca1#android");
+      --stack-icon-app-store-url: url("icons.svg?5637fca1#app-store");
+      --stack-icon-arrow-down-url: url("icons.svg?5637fca1#arrow-down");
+      --stack-icon-arrow-left-url: url("icons.svg?5637fca1#arrow-left");
+      --stack-icon-arrow-right-url: url("icons.svg?5637fca1#arrow-right");
+      --stack-icon-arrow-up-url: url("icons.svg?5637fca1#arrow-up");
+      --stack-icon-burger-url: url("icons.svg?5637fca1#burger");
+      --stack-icon-close-url: url("icons.svg?5637fca1#close");
+      --stack-icon-copy-url: url("icons.svg?5637fca1#copy");
+      --stack-icon-download-url: url("icons.svg?5637fca1#download");
+      --stack-icon-drag-url: url("icons.svg?5637fca1#drag");
+      --stack-icon-edit-url: url("icons.svg?5637fca1#edit");
+      --stack-icon-email-url: url("icons.svg?5637fca1#email");
+      --stack-icon-exclamation-mark-url: url("icons.svg?5637fca1#exclamation-mark");
+      --stack-icon-eye-close-url: url("icons.svg?5637fca1#eye-close");
+      --stack-icon-eye-open-url: url("icons.svg?5637fca1#eye-open");
+      --stack-icon-heart-url: url("icons.svg?5637fca1#heart");
+      --stack-icon-info-url: url("icons.svg?5637fca1#info");
+      --stack-icon-instagram-url: url("icons.svg?5637fca1#instagram");
+      --stack-icon-linkedin-url: url("icons.svg?5637fca1#linkedin");
+      --stack-icon-locator-url: url("icons.svg?5637fca1#locator");
+      --stack-icon-phone-url: url("icons.svg?5637fca1#phone");
+      --stack-icon-pinterest-url: url("icons.svg?5637fca1#pinterest");
+      --stack-icon-plus-url: url("icons.svg?5637fca1#plus");
+      --stack-icon-print-url: url("icons.svg?5637fca1#print");
+      --stack-icon-refresh-url: url("icons.svg?5637fca1#refresh");
+      --stack-icon-rss-url: url("icons.svg?5637fca1#rss");
+      --stack-icon-search-url: url("icons.svg?5637fca1#search");
+      --stack-icon-share-url: url("icons.svg?5637fca1#share");
+      --stack-icon-trash-url: url("icons.svg?5637fca1#trash");
+      --stack-icon-youtube-url: url("icons.svg?5637fca1#youtube");
+    }
+
+    .stack-icon--img {
+       height: 48px;
+       width: 48px;
+     }
+
+    .stack-icon {
+      background-color: black;
+      display: inline-block;
+      height: 48px;
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: cover;
+      overflow: hidden;
+      text-indent: 200%;
+      white-space: nowrap;
+      width: 48px;
+    }
+
+    .stack-icon:hover,
+    .stack-icon:focus {
+      background-color: #3657EB;
+      background: linear-gradient(172deg,rgba(78, 192, 245, 1) 0%, rgba(54, 87, 235, 1) 100%);
+    }
+
+    .stack-icon-account {
+      mask-image: var(--stack-icon-account-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-android {
+      mask-image: var(--stack-icon-android-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-app-store {
+      mask-image: var(--stack-icon-app-store-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-arrow-down {
+      mask-image: var(--stack-icon-arrow-down-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-arrow-left {
+      mask-image: var(--stack-icon-arrow-left-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-arrow-right {
+      mask-image: var(--stack-icon-arrow-right-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-arrow-up {
+      mask-image: var(--stack-icon-arrow-up-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-burger {
+      mask-image: var(--stack-icon-burger-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-close {
+      mask-image: var(--stack-icon-close-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-copy {
+      mask-image: var(--stack-icon-copy-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-download {
+      mask-image: var(--stack-icon-download-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-drag {
+      mask-image: var(--stack-icon-drag-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-edit {
+      mask-image: var(--stack-icon-edit-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-email {
+      mask-image: var(--stack-icon-email-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-exclamation-mark {
+      mask-image: var(--stack-icon-exclamation-mark-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-eye-close {
+      mask-image: var(--stack-icon-eye-close-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-eye-open {
+      mask-image: var(--stack-icon-eye-open-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-heart {
+      mask-image: var(--stack-icon-heart-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-info {
+      mask-image: var(--stack-icon-info-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-instagram {
+      mask-image: var(--stack-icon-instagram-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-linkedin {
+      mask-image: var(--stack-icon-linkedin-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-locator {
+      mask-image: var(--stack-icon-locator-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-phone {
+      mask-image: var(--stack-icon-phone-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-pinterest {
+      mask-image: var(--stack-icon-pinterest-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-plus {
+      mask-image: var(--stack-icon-plus-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-print {
+      mask-image: var(--stack-icon-print-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-refresh {
+      mask-image: var(--stack-icon-refresh-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-rss {
+      mask-image: var(--stack-icon-rss-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-search {
+      mask-image: var(--stack-icon-search-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-share {
+      mask-image: var(--stack-icon-share-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-trash {
+      mask-image: var(--stack-icon-trash-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+    .stack-icon-youtube {
+      mask-image: var(--stack-icon-youtube-url);
+      /*width: 48px;
+      height: 48px;*/
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>SVG stack preview</h1>
+
+  <p>Some examples of source code are available under each widget.</p>
+  <dl>
+    <dt>Conventional CSS sprite (preferred):</dt>
+    <dd>This technique uses CSS classes to display portions of the sprite as background image of
+      appropriately sized elements.</dd>
+    <dt>Image HTML tag</dt>
+    <dd>
+      <p>SVG images make use of fragment identifiers (IDs) to reference
+        certain portions of the external sprite. By default, CSS hides all
+        shapes inside the sprite. The `:target` pseudo selector is used to
+        show the very shape referenced by the fragment identifier.</p>
+      <p>This preview features an SVG stack. Please be aware of the following:</p>
+      <ul>
+        <li>
+          Your browser has to <a href="https://caniuse.com/svg-fragment" target="_blank" rel="noopener noreferrer">
+          support SVG fragment identifiers</a> for SVG stacks to work.</li>
+        <li>Support for SVG fragment identifiers hasn't always been that decent.
+          For older browsers you will have to use some polyfill like
+          <a href="https://github.com/preciousforever/SVG-Stacker/blob/master/fixsvgstack.jquery.js" target="_blank" rel="noopener noreferrer">fixsvgstack.jquery.js</a>.</li>
+      </ul></dd>
+  </dl>
+</header>
+
+<section>
+
+  <ul>
+    <li title="account">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-account">account</i>
+      </div>
+      <h2>account</h2>
+      <button class="popover" popovertarget="stack-icon-account-popover">See code widget</button>
+      <div popover id="stack-icon-account-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-account" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-account&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-account">account</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-account&quot;&gt;account&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="account">
+              <i class="stack-icon stack-icon-account" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;account&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-account&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-account&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-account" aria-hidden="true"></i>
+              <span class="sr-only">account</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-account&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;account&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-account" aria-hidden="true"></i>
+              <span>account (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#account" class="stack-icon--img stack-icon--img-account" alt="account">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#account&quot; class=&quot;stack-icon--img stack-icon--img-account&quot; alt=&quot;account&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="android">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-android">android</i>
+      </div>
+      <h2>android</h2>
+      <button class="popover" popovertarget="stack-icon-android-popover">See code widget</button>
+      <div popover id="stack-icon-android-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-android" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-android&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-android">android</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-android&quot;&gt;android&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="android">
+              <i class="stack-icon stack-icon-android" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;android&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-android&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-android&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-android" aria-hidden="true"></i>
+              <span class="sr-only">android</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-android&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;android&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-android" aria-hidden="true"></i>
+              <span>android (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#android" class="stack-icon--img stack-icon--img-android" alt="android">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#android&quot; class=&quot;stack-icon--img stack-icon--img-android&quot; alt=&quot;android&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="app-store">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-app-store">app-store</i>
+      </div>
+      <h2>app-store</h2>
+      <button class="popover" popovertarget="stack-icon-app-store-popover">See code widget</button>
+      <div popover id="stack-icon-app-store-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-app-store" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-app-store&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-app-store">app-store</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-app-store&quot;&gt;app-store&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="app-store">
+              <i class="stack-icon stack-icon-app-store" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;app-store&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-app-store&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-app-store&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-app-store" aria-hidden="true"></i>
+              <span class="sr-only">app-store</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-app-store&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;app-store&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-app-store" aria-hidden="true"></i>
+              <span>app-store (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#app-store" class="stack-icon--img stack-icon--img-app-store" alt="app-store">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#app-store&quot; class=&quot;stack-icon--img stack-icon--img-app-store&quot; alt=&quot;app-store&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="arrow-down">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-arrow-down">arrow-down</i>
+      </div>
+      <h2>arrow-down</h2>
+      <button class="popover" popovertarget="stack-icon-arrow-down-popover">See code widget</button>
+      <div popover id="stack-icon-arrow-down-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-arrow-down" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-down&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-arrow-down">arrow-down</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-down&quot;&gt;arrow-down&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="arrow-down">
+              <i class="stack-icon stack-icon-arrow-down" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;arrow-down&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-down&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-arrow-down&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-down" aria-hidden="true"></i>
+              <span class="sr-only">arrow-down</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-down&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;arrow-down&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-down" aria-hidden="true"></i>
+              <span>arrow-down (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#arrow-down" class="stack-icon--img stack-icon--img-arrow-down" alt="arrow-down">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#arrow-down&quot; class=&quot;stack-icon--img stack-icon--img-arrow-down&quot; alt=&quot;arrow-down&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="arrow-left">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-arrow-left">arrow-left</i>
+      </div>
+      <h2>arrow-left</h2>
+      <button class="popover" popovertarget="stack-icon-arrow-left-popover">See code widget</button>
+      <div popover id="stack-icon-arrow-left-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-arrow-left" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-left&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-arrow-left">arrow-left</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-left&quot;&gt;arrow-left&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="arrow-left">
+              <i class="stack-icon stack-icon-arrow-left" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;arrow-left&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-left&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-arrow-left&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-left" aria-hidden="true"></i>
+              <span class="sr-only">arrow-left</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-left&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;arrow-left&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-left" aria-hidden="true"></i>
+              <span>arrow-left (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#arrow-left" class="stack-icon--img stack-icon--img-arrow-left" alt="arrow-left">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#arrow-left&quot; class=&quot;stack-icon--img stack-icon--img-arrow-left&quot; alt=&quot;arrow-left&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="arrow-right">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-arrow-right">arrow-right</i>
+      </div>
+      <h2>arrow-right</h2>
+      <button class="popover" popovertarget="stack-icon-arrow-right-popover">See code widget</button>
+      <div popover id="stack-icon-arrow-right-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-arrow-right" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-arrow-right">arrow-right</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-right&quot;&gt;arrow-right&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="arrow-right">
+              <i class="stack-icon stack-icon-arrow-right" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;arrow-right&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-arrow-right&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-right" aria-hidden="true"></i>
+              <span class="sr-only">arrow-right</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;arrow-right&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-right" aria-hidden="true"></i>
+              <span>arrow-right (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#arrow-right" class="stack-icon--img stack-icon--img-arrow-right" alt="arrow-right">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#arrow-right&quot; class=&quot;stack-icon--img stack-icon--img-arrow-right&quot; alt=&quot;arrow-right&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="arrow-up">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-arrow-up">arrow-up</i>
+      </div>
+      <h2>arrow-up</h2>
+      <button class="popover" popovertarget="stack-icon-arrow-up-popover">See code widget</button>
+      <div popover id="stack-icon-arrow-up-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-arrow-up" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-up&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-arrow-up">arrow-up</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-arrow-up&quot;&gt;arrow-up&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="arrow-up">
+              <i class="stack-icon stack-icon-arrow-up" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;arrow-up&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-up&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-arrow-up&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-up" aria-hidden="true"></i>
+              <span class="sr-only">arrow-up</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-arrow-up&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;arrow-up&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-arrow-up" aria-hidden="true"></i>
+              <span>arrow-up (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#arrow-up" class="stack-icon--img stack-icon--img-arrow-up" alt="arrow-up">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#arrow-up&quot; class=&quot;stack-icon--img stack-icon--img-arrow-up&quot; alt=&quot;arrow-up&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="burger">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-burger">burger</i>
+      </div>
+      <h2>burger</h2>
+      <button class="popover" popovertarget="stack-icon-burger-popover">See code widget</button>
+      <div popover id="stack-icon-burger-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-burger" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-burger&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-burger">burger</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-burger&quot;&gt;burger&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="burger">
+              <i class="stack-icon stack-icon-burger" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;burger&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-burger&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-burger&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-burger" aria-hidden="true"></i>
+              <span class="sr-only">burger</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-burger&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;burger&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-burger" aria-hidden="true"></i>
+              <span>burger (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#burger" class="stack-icon--img stack-icon--img-burger" alt="burger">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#burger&quot; class=&quot;stack-icon--img stack-icon--img-burger&quot; alt=&quot;burger&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="close">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-close">close</i>
+      </div>
+      <h2>close</h2>
+      <button class="popover" popovertarget="stack-icon-close-popover">See code widget</button>
+      <div popover id="stack-icon-close-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-close" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-close&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-close">close</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-close&quot;&gt;close&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="close">
+              <i class="stack-icon stack-icon-close" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;close&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-close&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-close&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-close" aria-hidden="true"></i>
+              <span class="sr-only">close</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-close&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;close&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-close" aria-hidden="true"></i>
+              <span>close (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#close" class="stack-icon--img stack-icon--img-close" alt="close">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#close&quot; class=&quot;stack-icon--img stack-icon--img-close&quot; alt=&quot;close&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="copy">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-copy">copy</i>
+      </div>
+      <h2>copy</h2>
+      <button class="popover" popovertarget="stack-icon-copy-popover">See code widget</button>
+      <div popover id="stack-icon-copy-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-copy" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-copy&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-copy">copy</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-copy&quot;&gt;copy&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="copy">
+              <i class="stack-icon stack-icon-copy" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;copy&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-copy&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-copy&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-copy" aria-hidden="true"></i>
+              <span class="sr-only">copy</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-copy&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;copy&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-copy" aria-hidden="true"></i>
+              <span>copy (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#copy" class="stack-icon--img stack-icon--img-copy" alt="copy">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#copy&quot; class=&quot;stack-icon--img stack-icon--img-copy&quot; alt=&quot;copy&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="download">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-download">download</i>
+      </div>
+      <h2>download</h2>
+      <button class="popover" popovertarget="stack-icon-download-popover">See code widget</button>
+      <div popover id="stack-icon-download-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-download" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-download&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-download">download</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-download&quot;&gt;download&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="download">
+              <i class="stack-icon stack-icon-download" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;download&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-download&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-download&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-download" aria-hidden="true"></i>
+              <span class="sr-only">download</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-download&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;download&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-download" aria-hidden="true"></i>
+              <span>download (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#download" class="stack-icon--img stack-icon--img-download" alt="download">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#download&quot; class=&quot;stack-icon--img stack-icon--img-download&quot; alt=&quot;download&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="drag">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-drag">drag</i>
+      </div>
+      <h2>drag</h2>
+      <button class="popover" popovertarget="stack-icon-drag-popover">See code widget</button>
+      <div popover id="stack-icon-drag-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-drag" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-drag&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-drag">drag</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-drag&quot;&gt;drag&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="drag">
+              <i class="stack-icon stack-icon-drag" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;drag&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-drag&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-drag&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-drag" aria-hidden="true"></i>
+              <span class="sr-only">drag</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-drag&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;drag&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-drag" aria-hidden="true"></i>
+              <span>drag (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#drag" class="stack-icon--img stack-icon--img-drag" alt="drag">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#drag&quot; class=&quot;stack-icon--img stack-icon--img-drag&quot; alt=&quot;drag&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="edit">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-edit">edit</i>
+      </div>
+      <h2>edit</h2>
+      <button class="popover" popovertarget="stack-icon-edit-popover">See code widget</button>
+      <div popover id="stack-icon-edit-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-edit" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-edit&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-edit">edit</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-edit&quot;&gt;edit&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="edit">
+              <i class="stack-icon stack-icon-edit" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;edit&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-edit&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-edit&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-edit" aria-hidden="true"></i>
+              <span class="sr-only">edit</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-edit&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;edit&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-edit" aria-hidden="true"></i>
+              <span>edit (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#edit" class="stack-icon--img stack-icon--img-edit" alt="edit">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#edit&quot; class=&quot;stack-icon--img stack-icon--img-edit&quot; alt=&quot;edit&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="email">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-email">email</i>
+      </div>
+      <h2>email</h2>
+      <button class="popover" popovertarget="stack-icon-email-popover">See code widget</button>
+      <div popover id="stack-icon-email-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-email" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-email&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-email">email</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-email&quot;&gt;email&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="email">
+              <i class="stack-icon stack-icon-email" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;email&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-email&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-email&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-email" aria-hidden="true"></i>
+              <span class="sr-only">email</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-email&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;email&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-email" aria-hidden="true"></i>
+              <span>email (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#email" class="stack-icon--img stack-icon--img-email" alt="email">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#email&quot; class=&quot;stack-icon--img stack-icon--img-email&quot; alt=&quot;email&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="exclamation-mark">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-exclamation-mark">exclamation-mark</i>
+      </div>
+      <h2>exclamation-mark</h2>
+      <button class="popover" popovertarget="stack-icon-exclamation-mark-popover">See code widget</button>
+      <div popover id="stack-icon-exclamation-mark-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-exclamation-mark" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-exclamation-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-exclamation-mark">exclamation-mark</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-exclamation-mark&quot;&gt;exclamation-mark&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="exclamation-mark">
+              <i class="stack-icon stack-icon-exclamation-mark" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;exclamation-mark&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-exclamation-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-exclamation-mark&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-exclamation-mark" aria-hidden="true"></i>
+              <span class="sr-only">exclamation-mark</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-exclamation-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;exclamation-mark&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-exclamation-mark" aria-hidden="true"></i>
+              <span>exclamation-mark (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#exclamation-mark" class="stack-icon--img stack-icon--img-exclamation-mark" alt="exclamation-mark">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#exclamation-mark&quot; class=&quot;stack-icon--img stack-icon--img-exclamation-mark&quot; alt=&quot;exclamation-mark&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="eye-close">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-eye-close">eye-close</i>
+      </div>
+      <h2>eye-close</h2>
+      <button class="popover" popovertarget="stack-icon-eye-close-popover">See code widget</button>
+      <div popover id="stack-icon-eye-close-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-eye-close" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-eye-close&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-eye-close">eye-close</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-eye-close&quot;&gt;eye-close&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="eye-close">
+              <i class="stack-icon stack-icon-eye-close" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;eye-close&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-eye-close&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-eye-close&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-eye-close" aria-hidden="true"></i>
+              <span class="sr-only">eye-close</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-eye-close&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;eye-close&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-eye-close" aria-hidden="true"></i>
+              <span>eye-close (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#eye-close" class="stack-icon--img stack-icon--img-eye-close" alt="eye-close">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#eye-close&quot; class=&quot;stack-icon--img stack-icon--img-eye-close&quot; alt=&quot;eye-close&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="eye-open">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-eye-open">eye-open</i>
+      </div>
+      <h2>eye-open</h2>
+      <button class="popover" popovertarget="stack-icon-eye-open-popover">See code widget</button>
+      <div popover id="stack-icon-eye-open-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-eye-open" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-eye-open&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-eye-open">eye-open</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-eye-open&quot;&gt;eye-open&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="eye-open">
+              <i class="stack-icon stack-icon-eye-open" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;eye-open&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-eye-open&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-eye-open&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-eye-open" aria-hidden="true"></i>
+              <span class="sr-only">eye-open</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-eye-open&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;eye-open&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-eye-open" aria-hidden="true"></i>
+              <span>eye-open (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#eye-open" class="stack-icon--img stack-icon--img-eye-open" alt="eye-open">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#eye-open&quot; class=&quot;stack-icon--img stack-icon--img-eye-open&quot; alt=&quot;eye-open&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="heart">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-heart">heart</i>
+      </div>
+      <h2>heart</h2>
+      <button class="popover" popovertarget="stack-icon-heart-popover">See code widget</button>
+      <div popover id="stack-icon-heart-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-heart" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-heart&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-heart">heart</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-heart&quot;&gt;heart&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="heart">
+              <i class="stack-icon stack-icon-heart" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;heart&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-heart&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-heart&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-heart" aria-hidden="true"></i>
+              <span class="sr-only">heart</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-heart&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;heart&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-heart" aria-hidden="true"></i>
+              <span>heart (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#heart" class="stack-icon--img stack-icon--img-heart" alt="heart">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#heart&quot; class=&quot;stack-icon--img stack-icon--img-heart&quot; alt=&quot;heart&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="info">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-info">info</i>
+      </div>
+      <h2>info</h2>
+      <button class="popover" popovertarget="stack-icon-info-popover">See code widget</button>
+      <div popover id="stack-icon-info-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-info" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-info">info</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-info&quot;&gt;info&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="info">
+              <i class="stack-icon stack-icon-info" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;info&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-info&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-info" aria-hidden="true"></i>
+              <span class="sr-only">info</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;info&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-info" aria-hidden="true"></i>
+              <span>info (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#info" class="stack-icon--img stack-icon--img-info" alt="info">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#info&quot; class=&quot;stack-icon--img stack-icon--img-info&quot; alt=&quot;info&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="instagram">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-instagram">instagram</i>
+      </div>
+      <h2>instagram</h2>
+      <button class="popover" popovertarget="stack-icon-instagram-popover">See code widget</button>
+      <div popover id="stack-icon-instagram-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-instagram" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-instagram&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-instagram">instagram</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-instagram&quot;&gt;instagram&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="instagram">
+              <i class="stack-icon stack-icon-instagram" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;instagram&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-instagram&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-instagram&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-instagram" aria-hidden="true"></i>
+              <span class="sr-only">instagram</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-instagram&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;instagram&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-instagram" aria-hidden="true"></i>
+              <span>instagram (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#instagram" class="stack-icon--img stack-icon--img-instagram" alt="instagram">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#instagram&quot; class=&quot;stack-icon--img stack-icon--img-instagram&quot; alt=&quot;instagram&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="linkedin">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-linkedin">linkedin</i>
+      </div>
+      <h2>linkedin</h2>
+      <button class="popover" popovertarget="stack-icon-linkedin-popover">See code widget</button>
+      <div popover id="stack-icon-linkedin-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-linkedin" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-linkedin&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-linkedin">linkedin</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-linkedin&quot;&gt;linkedin&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="linkedin">
+              <i class="stack-icon stack-icon-linkedin" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;linkedin&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-linkedin&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-linkedin&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-linkedin" aria-hidden="true"></i>
+              <span class="sr-only">linkedin</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-linkedin&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;linkedin&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-linkedin" aria-hidden="true"></i>
+              <span>linkedin (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#linkedin" class="stack-icon--img stack-icon--img-linkedin" alt="linkedin">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#linkedin&quot; class=&quot;stack-icon--img stack-icon--img-linkedin&quot; alt=&quot;linkedin&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="locator">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-locator">locator</i>
+      </div>
+      <h2>locator</h2>
+      <button class="popover" popovertarget="stack-icon-locator-popover">See code widget</button>
+      <div popover id="stack-icon-locator-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-locator" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-locator&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-locator">locator</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-locator&quot;&gt;locator&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="locator">
+              <i class="stack-icon stack-icon-locator" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;locator&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-locator&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-locator&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-locator" aria-hidden="true"></i>
+              <span class="sr-only">locator</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-locator&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;locator&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-locator" aria-hidden="true"></i>
+              <span>locator (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#locator" class="stack-icon--img stack-icon--img-locator" alt="locator">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#locator&quot; class=&quot;stack-icon--img stack-icon--img-locator&quot; alt=&quot;locator&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="phone">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-phone">phone</i>
+      </div>
+      <h2>phone</h2>
+      <button class="popover" popovertarget="stack-icon-phone-popover">See code widget</button>
+      <div popover id="stack-icon-phone-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-phone" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-phone&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-phone">phone</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-phone&quot;&gt;phone&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="phone">
+              <i class="stack-icon stack-icon-phone" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;phone&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-phone&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-phone&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-phone" aria-hidden="true"></i>
+              <span class="sr-only">phone</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-phone&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;phone&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-phone" aria-hidden="true"></i>
+              <span>phone (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#phone" class="stack-icon--img stack-icon--img-phone" alt="phone">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#phone&quot; class=&quot;stack-icon--img stack-icon--img-phone&quot; alt=&quot;phone&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="pinterest">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-pinterest">pinterest</i>
+      </div>
+      <h2>pinterest</h2>
+      <button class="popover" popovertarget="stack-icon-pinterest-popover">See code widget</button>
+      <div popover id="stack-icon-pinterest-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-pinterest" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-pinterest&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-pinterest">pinterest</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-pinterest&quot;&gt;pinterest&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="pinterest">
+              <i class="stack-icon stack-icon-pinterest" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;pinterest&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-pinterest&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-pinterest&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-pinterest" aria-hidden="true"></i>
+              <span class="sr-only">pinterest</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-pinterest&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;pinterest&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-pinterest" aria-hidden="true"></i>
+              <span>pinterest (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#pinterest" class="stack-icon--img stack-icon--img-pinterest" alt="pinterest">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#pinterest&quot; class=&quot;stack-icon--img stack-icon--img-pinterest&quot; alt=&quot;pinterest&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="plus">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-plus">plus</i>
+      </div>
+      <h2>plus</h2>
+      <button class="popover" popovertarget="stack-icon-plus-popover">See code widget</button>
+      <div popover id="stack-icon-plus-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-plus" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-plus&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-plus">plus</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-plus&quot;&gt;plus&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="plus">
+              <i class="stack-icon stack-icon-plus" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;plus&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-plus&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-plus&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-plus" aria-hidden="true"></i>
+              <span class="sr-only">plus</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-plus&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;plus&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-plus" aria-hidden="true"></i>
+              <span>plus (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#plus" class="stack-icon--img stack-icon--img-plus" alt="plus">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#plus&quot; class=&quot;stack-icon--img stack-icon--img-plus&quot; alt=&quot;plus&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="print">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-print">print</i>
+      </div>
+      <h2>print</h2>
+      <button class="popover" popovertarget="stack-icon-print-popover">See code widget</button>
+      <div popover id="stack-icon-print-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-print" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-print&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-print">print</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-print&quot;&gt;print&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="print">
+              <i class="stack-icon stack-icon-print" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;print&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-print&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-print&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-print" aria-hidden="true"></i>
+              <span class="sr-only">print</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-print&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;print&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-print" aria-hidden="true"></i>
+              <span>print (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#print" class="stack-icon--img stack-icon--img-print" alt="print">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#print&quot; class=&quot;stack-icon--img stack-icon--img-print&quot; alt=&quot;print&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="refresh">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-refresh">refresh</i>
+      </div>
+      <h2>refresh</h2>
+      <button class="popover" popovertarget="stack-icon-refresh-popover">See code widget</button>
+      <div popover id="stack-icon-refresh-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-refresh" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-refresh&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-refresh">refresh</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-refresh&quot;&gt;refresh&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="refresh">
+              <i class="stack-icon stack-icon-refresh" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;refresh&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-refresh&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-refresh&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-refresh" aria-hidden="true"></i>
+              <span class="sr-only">refresh</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-refresh&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;refresh&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-refresh" aria-hidden="true"></i>
+              <span>refresh (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#refresh" class="stack-icon--img stack-icon--img-refresh" alt="refresh">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#refresh&quot; class=&quot;stack-icon--img stack-icon--img-refresh&quot; alt=&quot;refresh&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="rss">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-rss">rss</i>
+      </div>
+      <h2>rss</h2>
+      <button class="popover" popovertarget="stack-icon-rss-popover">See code widget</button>
+      <div popover id="stack-icon-rss-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-rss" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-rss&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-rss">rss</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-rss&quot;&gt;rss&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="rss">
+              <i class="stack-icon stack-icon-rss" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;rss&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-rss&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-rss&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-rss" aria-hidden="true"></i>
+              <span class="sr-only">rss</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-rss&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;rss&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-rss" aria-hidden="true"></i>
+              <span>rss (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#rss" class="stack-icon--img stack-icon--img-rss" alt="rss">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#rss&quot; class=&quot;stack-icon--img stack-icon--img-rss&quot; alt=&quot;rss&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="search">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-search">search</i>
+      </div>
+      <h2>search</h2>
+      <button class="popover" popovertarget="stack-icon-search-popover">See code widget</button>
+      <div popover id="stack-icon-search-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-search" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-search&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-search">search</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-search&quot;&gt;search&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="search">
+              <i class="stack-icon stack-icon-search" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;search&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-search&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-search&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-search" aria-hidden="true"></i>
+              <span class="sr-only">search</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-search&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;search&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-search" aria-hidden="true"></i>
+              <span>search (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#search" class="stack-icon--img stack-icon--img-search" alt="search">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#search&quot; class=&quot;stack-icon--img stack-icon--img-search&quot; alt=&quot;search&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="share">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-share">share</i>
+      </div>
+      <h2>share</h2>
+      <button class="popover" popovertarget="stack-icon-share-popover">See code widget</button>
+      <div popover id="stack-icon-share-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-share" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-share&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-share">share</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-share&quot;&gt;share&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="share">
+              <i class="stack-icon stack-icon-share" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;share&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-share&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-share&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-share" aria-hidden="true"></i>
+              <span class="sr-only">share</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-share&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;share&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-share" aria-hidden="true"></i>
+              <span>share (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#share" class="stack-icon--img stack-icon--img-share" alt="share">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#share&quot; class=&quot;stack-icon--img stack-icon--img-share&quot; alt=&quot;share&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="trash">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-trash">trash</i>
+      </div>
+      <h2>trash</h2>
+      <button class="popover" popovertarget="stack-icon-trash-popover">See code widget</button>
+      <div popover id="stack-icon-trash-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-trash" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-trash&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-trash">trash</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-trash&quot;&gt;trash&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="trash">
+              <i class="stack-icon stack-icon-trash" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;trash&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-trash&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-trash&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-trash" aria-hidden="true"></i>
+              <span class="sr-only">trash</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-trash&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;trash&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-trash" aria-hidden="true"></i>
+              <span>trash (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#trash" class="stack-icon--img stack-icon--img-trash" alt="trash">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#trash&quot; class=&quot;stack-icon--img stack-icon--img-trash&quot; alt=&quot;trash&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li title="youtube">
+      <div class="icon-box">
+        <i class="stack-icon stack-icon-youtube">youtube</i>
+      </div>
+      <h2>youtube</h2>
+      <button class="popover" popovertarget="stack-icon-youtube-popover">See code widget</button>
+      <div popover id="stack-icon-youtube-popover">
+        <div class="popover-inner">
+          <div class="popover-icon-box">
+            <h3>Illustrative icon</h3>
+            <p>Used when the icon is purely decorative and doesn't convey
+              essential information, as it is hidden from screen readers. Such
+              icon should be used with adjacent text or context.</p>
+            <i class="stack-icon stack-icon-youtube" aria-hidden="true"></i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-youtube&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Non-illustrative icon recognized by screen readers</h3>
+            <p>Used when the icon is not purely decorative and conveys essential
+              information.</p>
+            <i class="stack-icon stack-icon-youtube">youtube</i>
+            <code>&lt;i class=&quot;stack-icon stack-icon-youtube&quot;&gt;youtube&lt;/i&gt;</code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon-Only Button</h3>
+            <p>Used when the icon serves as a button without visible text.</p>
+            <button type="button" class="stack-icon-button" aria-label="youtube">
+              <i class="stack-icon stack-icon-youtube" aria-hidden="true"></i>
+            </button>
+            <code><pre>
+&lt;button type=&quot;button&quot; class=&quot;stack-icon-button&quot; aria-label=&quot;youtube&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-youtube&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+&lt;/button&gt;
+            </pre></code>
+            <p>A simpler version:</p>
+            <code>
+              &lt;button type=&quot;button&quot; class=&quot;stack-icon stack-icon-youtube&quot; aria-label=&quot;Send email&quot;&gt;&lt;/button&gt;
+            </code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon in a link</h3>
+            <p>Used when the icon represents a link action.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-youtube" aria-hidden="true"></i>
+              <span class="sr-only">youtube</span>
+            </a>
+            <code><pre>
+&lt;a href=&quot;#&quot;&quot; class=&quot;stack-icon-link&quot;&gt;
+  &lt;i class=&quot;stack-icon stack-icon-youtube&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
+  &lt;span class=&quot;sr-only&quot;&gt;youtube&lt;/span&gt;
+&lt;/a&gt;
+            </pre></code>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Icon with visible text</h3>
+            <p>Used when the icon is used alongside text, for example with a link.</p>
+            <a href="#" class="stack-icon-link">
+              <i class="stack-icon stack-icon-youtube" aria-hidden="true"></i>
+              <span>youtube (or any custom text)</span>
+            </a>
+            <a href="#" class="stack-icon-link"></a>
+          </div>
+
+          <div class="popover-icon-box">
+            <h3>Using <em>&lt;img&gt;</em> HTML tag</h3>
+            <p>This method is not the more convenient way to use stack icons as
+              the SVG sprite used initially may change. You can ignore the hash
+              in the query string or update it after each change, but this may
+              become really tedious.</p>
+            <img src="icons.svg?5637fca1#youtube" class="stack-icon--img stack-icon--img-youtube" alt="youtube">
+            <code>&lt;img src=&quot;icons.svg?5637fca1#youtube&quot; class=&quot;stack-icon--img stack-icon--img-youtube&quot; alt=&quot;youtube&quot;&gt;</code>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<footer>
+  <p>Generated at Thu, 09 Jul 2026 12:19:49 GMT by <a href="https://github.com/svg-sprite/svg-sprite" target="_blank" rel="noopener noreferrer">svg-sprite</a>.</p>
+</footer>
+</body>
+</html>

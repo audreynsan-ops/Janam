@@ -1,0 +1,12 @@
+.region--footer {
+  .menu-level-1 {
+    flex-direction: column;
+    margin-top: var(--spacer-1);
+  }
+}
+
+.copyright {
+  border-top: 2px solid var(--gray-400);
+  font-size: .875rem;
+  width: 100%;
+}

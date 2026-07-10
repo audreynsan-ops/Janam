@@ -1,0 +1,54 @@
+//
+// Buttons
+//
+
+@use "colors";
+@use "main";
+
+
+//
+// Button variants
+//
+
+$btn-colors: (
+  "primary": colors.$white,
+  "secondary": colors.$white,
+  "outline-primary": colors.$primary,
+);
+$btn-bg-colors: (
+  "primary": colors.$primary,
+  "secondary": colors.$secondary,
+);
+$btn-border-colors: (
+  "primary": colors.$primary,
+  "secondary": colors.$secondary,
+  "outline-primary": colors.$primary,
+);
+$btn-hover-colors: (
+  "primary": colors.$green-2,
+  "secondary": colors.$secondary,
+  "outline-primary": colors.$white,
+);
+$btn-hover-bg-colors: (
+  "primary": colors.$white,
+  "secondary": colors.$white,
+  "outline-primary": colors.$primary,
+);
+$btn-hover-border-colors: (
+  "primary": colors.$primary,
+  "secondary": colors.$secondary,
+  "outline-primary": colors.$primary,
+);
+
+//
+// settings
+//
+
+$btn-border-radius: 0;
+$btn-display: inline-block;
+$btn-font-weight: 500;
+$btn-text-transform: uppercase;
+$btn-transition: .3s all ease-in-out;
+$btn-font-size: 10px;
+$btn-padding: 10px 22px;
+$btn-cursor: pointer;

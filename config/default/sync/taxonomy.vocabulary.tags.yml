@@ -1,0 +1,11 @@
+uuid: cd31c7f9-b4e7-43c0-acf2-65975b864b2a
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: PWTsHiwkIfp5TW-iTBc9AhBtvbYY6wrp3MopazQ-95o
+name: Étiquettes
+vid: tags
+description: 'Use tags to group content on similar topics into categories.'
+weight: 0
+new_revision: false

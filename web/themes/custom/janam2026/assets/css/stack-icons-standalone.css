@@ -1,0 +1,241 @@
+/**
+ * Stack Icons mixin.
+ *
+ * @param {String} $icon - Name of icon.
+ * @param {String} $pseudo [before] - `before` | `after` The pseudo element to place the icon in.
+ * @todo Allow `$pseudo: false` to be declared so we don't have to use a pseudo element if we don't want to.
+ * @param {Bool} $text-replace [false]
+ * @param {String} $height
+ * @param {String} $width
+ * @param {String} $color [inherit]
+ * @param {String} $display [inline-block]
+ *
+ * @example scss
+ * .class {
+ *   @include stack-icon('close');
+ * }
+ */
+/**
+ * Stack Icons mask mixin.
+ */
+/**
+ * Write icon properties from a map.
+ *
+ * @param {Map} $map - Map of properties.
+ */
+:root {
+  --stack-icon-height: 48px;
+  --stack-icon-width: 48px;
+  --stack-icon-account-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#account);
+  --stack-icon-android-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#android);
+  --stack-icon-app-store-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#app-store);
+  --stack-icon-arrow-down-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#arrow-down);
+  --stack-icon-arrow-left-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#arrow-left);
+  --stack-icon-arrow-right-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#arrow-right);
+  --stack-icon-arrow-up-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#arrow-up);
+  --stack-icon-burger-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#burger);
+  --stack-icon-close-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#close);
+  --stack-icon-copy-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#copy);
+  --stack-icon-download-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#download);
+  --stack-icon-drag-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#drag);
+  --stack-icon-edit-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#edit);
+  --stack-icon-email-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#email);
+  --stack-icon-exclamation-mark-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#exclamation-mark);
+  --stack-icon-eye-close-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#eye-close);
+  --stack-icon-eye-open-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#eye-open);
+  --stack-icon-heart-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#heart);
+  --stack-icon-info-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#info);
+  --stack-icon-instagram-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#instagram);
+  --stack-icon-linkedin-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#linkedin);
+  --stack-icon-locator-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#locator);
+  --stack-icon-phone-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#phone);
+  --stack-icon-pinterest-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#pinterest);
+  --stack-icon-plus-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#plus);
+  --stack-icon-print-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#print);
+  --stack-icon-refresh-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#refresh);
+  --stack-icon-rss-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#rss);
+  --stack-icon-search-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#search);
+  --stack-icon-share-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#share);
+  --stack-icon-trash-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#trash);
+  --stack-icon-youtube-url: url(../../assets/sprites/svg-icons/icons.svg?5637fca1#youtube);
+}
+
+.stack-icon {
+  background-color: black;
+  display: inline-block;
+  height: 48px;
+  -webkit-mask-position: center;
+          mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+          mask-size: cover;
+  overflow: hidden;
+  width: 48px;
+}
+
+.stack-icon--replace {
+  text-indent: 200%;
+  white-space: nowrap;
+}
+
+.stack-icon-account {
+  -webkit-mask-image: var(--stack-icon-account-url);
+          mask-image: var(--stack-icon-account-url);
+}
+
+.stack-icon-android {
+  -webkit-mask-image: var(--stack-icon-android-url);
+          mask-image: var(--stack-icon-android-url);
+}
+
+.stack-icon-app-store {
+  -webkit-mask-image: var(--stack-icon-app-store-url);
+          mask-image: var(--stack-icon-app-store-url);
+}
+
+.stack-icon-arrow-down {
+  -webkit-mask-image: var(--stack-icon-arrow-down-url);
+          mask-image: var(--stack-icon-arrow-down-url);
+}
+
+.stack-icon-arrow-left {
+  -webkit-mask-image: var(--stack-icon-arrow-left-url);
+          mask-image: var(--stack-icon-arrow-left-url);
+}
+
+.stack-icon-arrow-right {
+  -webkit-mask-image: var(--stack-icon-arrow-right-url);
+          mask-image: var(--stack-icon-arrow-right-url);
+}
+
+.stack-icon-arrow-up {
+  -webkit-mask-image: var(--stack-icon-arrow-up-url);
+          mask-image: var(--stack-icon-arrow-up-url);
+}
+
+.stack-icon-burger {
+  -webkit-mask-image: var(--stack-icon-burger-url);
+          mask-image: var(--stack-icon-burger-url);
+}
+
+.stack-icon-close {
+  -webkit-mask-image: var(--stack-icon-close-url);
+          mask-image: var(--stack-icon-close-url);
+}
+
+.stack-icon-copy {
+  -webkit-mask-image: var(--stack-icon-copy-url);
+          mask-image: var(--stack-icon-copy-url);
+}
+
+.stack-icon-download {
+  -webkit-mask-image: var(--stack-icon-download-url);
+          mask-image: var(--stack-icon-download-url);
+}
+
+.stack-icon-drag {
+  -webkit-mask-image: var(--stack-icon-drag-url);
+          mask-image: var(--stack-icon-drag-url);
+}
+
+.stack-icon-edit {
+  -webkit-mask-image: var(--stack-icon-edit-url);
+          mask-image: var(--stack-icon-edit-url);
+}
+
+.stack-icon-email {
+  -webkit-mask-image: var(--stack-icon-email-url);
+          mask-image: var(--stack-icon-email-url);
+}
+
+.stack-icon-exclamation-mark {
+  -webkit-mask-image: var(--stack-icon-exclamation-mark-url);
+          mask-image: var(--stack-icon-exclamation-mark-url);
+}
+
+.stack-icon-eye-close {
+  -webkit-mask-image: var(--stack-icon-eye-close-url);
+          mask-image: var(--stack-icon-eye-close-url);
+}
+
+.stack-icon-eye-open {
+  -webkit-mask-image: var(--stack-icon-eye-open-url);
+          mask-image: var(--stack-icon-eye-open-url);
+}
+
+.stack-icon-heart {
+  -webkit-mask-image: var(--stack-icon-heart-url);
+          mask-image: var(--stack-icon-heart-url);
+}
+
+.stack-icon-info {
+  -webkit-mask-image: var(--stack-icon-info-url);
+          mask-image: var(--stack-icon-info-url);
+}
+
+.stack-icon-instagram {
+  -webkit-mask-image: var(--stack-icon-instagram-url);
+          mask-image: var(--stack-icon-instagram-url);
+}
+
+.stack-icon-linkedin {
+  -webkit-mask-image: var(--stack-icon-linkedin-url);
+          mask-image: var(--stack-icon-linkedin-url);
+}
+
+.stack-icon-locator {
+  -webkit-mask-image: var(--stack-icon-locator-url);
+          mask-image: var(--stack-icon-locator-url);
+}
+
+.stack-icon-phone {
+  -webkit-mask-image: var(--stack-icon-phone-url);
+          mask-image: var(--stack-icon-phone-url);
+}
+
+.stack-icon-pinterest {
+  -webkit-mask-image: var(--stack-icon-pinterest-url);
+          mask-image: var(--stack-icon-pinterest-url);
+}
+
+.stack-icon-plus {
+  -webkit-mask-image: var(--stack-icon-plus-url);
+          mask-image: var(--stack-icon-plus-url);
+}
+
+.stack-icon-print {
+  -webkit-mask-image: var(--stack-icon-print-url);
+          mask-image: var(--stack-icon-print-url);
+}
+
+.stack-icon-refresh {
+  -webkit-mask-image: var(--stack-icon-refresh-url);
+          mask-image: var(--stack-icon-refresh-url);
+}
+
+.stack-icon-rss {
+  -webkit-mask-image: var(--stack-icon-rss-url);
+          mask-image: var(--stack-icon-rss-url);
+}
+
+.stack-icon-search {
+  -webkit-mask-image: var(--stack-icon-search-url);
+          mask-image: var(--stack-icon-search-url);
+}
+
+.stack-icon-share {
+  -webkit-mask-image: var(--stack-icon-share-url);
+          mask-image: var(--stack-icon-share-url);
+}
+
+.stack-icon-trash {
+  -webkit-mask-image: var(--stack-icon-trash-url);
+          mask-image: var(--stack-icon-trash-url);
+}
+
+.stack-icon-youtube {
+  -webkit-mask-image: var(--stack-icon-youtube-url);
+          mask-image: var(--stack-icon-youtube-url);
+}
+/*# sourceMappingURL=stack-icons-standalone.css.map */

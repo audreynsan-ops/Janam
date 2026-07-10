@@ -1,0 +1,1 @@
+{"version":3,"sources":["libraries/branding.scss","branding.css"],"names":[],"mappings":"AACE;EACE,gBAAA;ACAJ","file":"branding.css","sourcesContent":["#block-janam2026-branding {\n  img {\n    max-height: 50px;\n  }\n}","#block-janam2026-branding img {\n  max-height: 50px;\n}"]}

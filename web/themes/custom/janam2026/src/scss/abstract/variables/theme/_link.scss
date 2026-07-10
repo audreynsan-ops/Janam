@@ -1,0 +1,11 @@
+//
+// Link
+//
+
+@use "colors";
+
+$link-color: colors.$primary;
+$link-decoration: none;
+$link-transition: .3s all ease-in-out;
+$link-color-hover: colors.$gray-900;
+$link-hover-decoration: none;

@@ -1,0 +1,38 @@
+$relative-path: "../../assets/sprites/svg-icons/" !default;
+
+:root {
+  --stack-icon-height: 48px;
+  --stack-icon-width: 48px;
+  --stack-icon-account-url: url(#{ $relative-path + 'icons.svg?5637fca1#account' });
+  --stack-icon-android-url: url(#{ $relative-path + 'icons.svg?5637fca1#android' });
+  --stack-icon-app-store-url: url(#{ $relative-path + 'icons.svg?5637fca1#app-store' });
+  --stack-icon-arrow-down-url: url(#{ $relative-path + 'icons.svg?5637fca1#arrow-down' });
+  --stack-icon-arrow-left-url: url(#{ $relative-path + 'icons.svg?5637fca1#arrow-left' });
+  --stack-icon-arrow-right-url: url(#{ $relative-path + 'icons.svg?5637fca1#arrow-right' });
+  --stack-icon-arrow-up-url: url(#{ $relative-path + 'icons.svg?5637fca1#arrow-up' });
+  --stack-icon-burger-url: url(#{ $relative-path + 'icons.svg?5637fca1#burger' });
+  --stack-icon-close-url: url(#{ $relative-path + 'icons.svg?5637fca1#close' });
+  --stack-icon-copy-url: url(#{ $relative-path + 'icons.svg?5637fca1#copy' });
+  --stack-icon-download-url: url(#{ $relative-path + 'icons.svg?5637fca1#download' });
+  --stack-icon-drag-url: url(#{ $relative-path + 'icons.svg?5637fca1#drag' });
+  --stack-icon-edit-url: url(#{ $relative-path + 'icons.svg?5637fca1#edit' });
+  --stack-icon-email-url: url(#{ $relative-path + 'icons.svg?5637fca1#email' });
+  --stack-icon-exclamation-mark-url: url(#{ $relative-path + 'icons.svg?5637fca1#exclamation-mark' });
+  --stack-icon-eye-close-url: url(#{ $relative-path + 'icons.svg?5637fca1#eye-close' });
+  --stack-icon-eye-open-url: url(#{ $relative-path + 'icons.svg?5637fca1#eye-open' });
+  --stack-icon-heart-url: url(#{ $relative-path + 'icons.svg?5637fca1#heart' });
+  --stack-icon-info-url: url(#{ $relative-path + 'icons.svg?5637fca1#info' });
+  --stack-icon-instagram-url: url(#{ $relative-path + 'icons.svg?5637fca1#instagram' });
+  --stack-icon-linkedin-url: url(#{ $relative-path + 'icons.svg?5637fca1#linkedin' });
+  --stack-icon-locator-url: url(#{ $relative-path + 'icons.svg?5637fca1#locator' });
+  --stack-icon-phone-url: url(#{ $relative-path + 'icons.svg?5637fca1#phone' });
+  --stack-icon-pinterest-url: url(#{ $relative-path + 'icons.svg?5637fca1#pinterest' });
+  --stack-icon-plus-url: url(#{ $relative-path + 'icons.svg?5637fca1#plus' });
+  --stack-icon-print-url: url(#{ $relative-path + 'icons.svg?5637fca1#print' });
+  --stack-icon-refresh-url: url(#{ $relative-path + 'icons.svg?5637fca1#refresh' });
+  --stack-icon-rss-url: url(#{ $relative-path + 'icons.svg?5637fca1#rss' });
+  --stack-icon-search-url: url(#{ $relative-path + 'icons.svg?5637fca1#search' });
+  --stack-icon-share-url: url(#{ $relative-path + 'icons.svg?5637fca1#share' });
+  --stack-icon-trash-url: url(#{ $relative-path + 'icons.svg?5637fca1#trash' });
+  --stack-icon-youtube-url: url(#{ $relative-path + 'icons.svg?5637fca1#youtube' });
+}

@@ -1,0 +1,84 @@
+//
+// CSS root variables
+//
+
+@use "colors";
+@use "main";
+
+$transparent: transparent;
+$white: white;
+$gray-100: #F8F5F0;
+$gray-300: #EDE4DC;
+$gray-500: #A8ABAF;
+$gray-600: #8E8E8E;
+$gray-900: #282828;
+$black: black;
+$green-1: #445849;
+$green-2: #4E6654;
+$green-3: #EDF2EE;
+$or-1: #C2A478;
+$or-2: #D4B896;
+$or-3: #E8D5BC;
+$brown-1: #2A2420;
+$brown-2: #6A5E54;
+$brown-3: #B0A498;
+$primary: $green-1;
+$secondary: #F8F5F0;
+$info: #E8D5BC;
+$error: #dc3545;
+$warning: #ffc107;
+$success: #28a745;
+$light: $gray-100;
+$gray: $gray-300;
+$dark: $gray-900;
+$link-color: colors.$primary;
+$link-decoration: none;
+$link-transition: .3s all ease-in-out;
+$link-color-hover: colors.$gray-900;
+$link-hover-decoration: none;
+$html-font-size: 16px;
+$font-family-base: 'Jost', sans-serif;
+$font-family-serif: 'Cormorant Garamond',serif;
+$font-variant-numeric: lining-nums;
+$font-feature-settings: lnum;
+$line-height-base: 1;
+$font-weight-light: 200;
+$font-weight-base: 300;
+$font-weight-bold: 700;
+$display-line-height: 1.5;
+$body-bg: colors.$gray-100;
+$body-color: colors.$brown-1;
+$btn-border-radius: 0;
+$btn-display: inline-block;
+$btn-font-weight: 500;
+$btn-text-transform: uppercase;
+$btn-transition: .3s all ease-in-out;
+$btn-font-size: 10px;
+$btn-padding: 10px 22px;
+$btn-cursor: pointer;
+$menu-link-color: colors.$primary;
+$menu-link-font-size: .875rem;
+$menu-link-line-height: 1.3;
+$menu-link-padding-x: 1rem;
+$menu-link-padding-y: .25rem;
+$menu-link-transform: uppercase;
+$headings-max-level: 5;
+$border-width: .125rem;
+$border-radius-sm: .2rem;
+$border-radius: .3125rem;
+$grid-gap-default: 2.5rem;
+$grid-gap: (
+  "xs": 1.25rem,
+  "xxl": 1.875rem,
+);
+$spacer-0: 0;
+$spacer-1: .625rem;
+$spacer-2: 1rem;
+$spacer-3: 1.5rem;
+$spacer-4: 2rem;
+$spacer-5: 3rem;
+$input-padding-x: 1.25rem;
+$input-padding-y: .625rem;
+$input-font-size: .75rem;
+$toolbar-fixed-padding: 60px;
+$toolbar-fixed-tray-open-padding: 100px;

@@ -1,0 +1,22 @@
+name: 'Janam 2026'
+type: theme
+base theme: false
+description: 'Corporate theme for Janam.'
+version: 1.0.0
+core_version_requirement: ^11
+
+libraries:
+  - janam2026/global
+
+ckeditor5-stylesheets:
+  - '//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap'
+  - assets/css/ckeditor5.css
+  - assets/css/stack-icons-standalone.css
+
+regions:
+  header: Header
+  navigation: Navigation
+  highlighted: Highlighted
+  content: Content
+  footer: Footer
+  offcanvas: 'Off Canvas'

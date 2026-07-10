@@ -1,0 +1,130 @@
+name: Docker Images CI
+
+on:
+  push:
+    branches:
+      - feature/exo-sks
+#      - main
+#      - staging
+#    tags:
+#      - '[0-9]+.[0-9]+.[0-9]+'
+#      - '[0-9]+.[0-9]+.[0-9]+-alpha[0-9]+'
+#      - '[0-9]+.[0-9]+.[0-9]+-beta[0-9]+'
+#      - '[0-9]+.[0-9]+.[0-9]+-rc[0-9]+'
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  env_vars:
+    name: Expose environment variables
+    runs-on: ubuntu-latest
+    outputs:
+      registry: ghcr.io
+      image_name: ${{ env.IMAGE_NAME }}
+      environment: ${{ (github.ref == 'refs/heads/main' && 'production') || (github.ref == 'refs/heads/staging' && 'staging') || 'development' }}
+    steps:
+      - run: echo "Expose environment variables to reusable workflow."
+
+  build-dependencies:
+    needs: [env_vars]
+    env:
+      COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fix Git safe directory
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --global --add safe.directory "/app"
+      - uses: actions/checkout@v4
+      - name: Cache Composer dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            vendor/
+            web/core/
+            web/libraries/
+            web/modules/contrib/
+            web/profiles/contrib/
+            web/themes/contrib/
+            drush/contrib/
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+      - uses: php-actions/composer@v6
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          dev: no
+          php_version: "8.3"
+          args: --optimize-autoloader --ignore-platform-reqs
+          container_workdir: /app
+      # We cannot use artifacts, as the permissions are not kept:
+      # https://github.com/actions/upload-artifact/issues/38
+      #- name: Upload dependencies artifact
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: composer-dependencies
+      #    path: |
+      #      vendor/
+      #      web/core/
+      #      web/libraries/
+      #      web/modules/contrib/
+      #      web/profiles/contrib/
+      #      web/themes/contrib/
+      #      drush/contrib/
+
+  build-php:
+    permissions:
+      contents: read
+      packages: write
+    needs: [env_vars, build-dependencies]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - # noinspection UndefinedAction
+        uses: ./.github/actions/docker-build
+        with:
+          registry: ${{ needs.env_vars.outputs.registry }}
+          image_name: ${{ needs.env_vars.outputs.image_name }}-php
+          dockerfile: ./services/php/Dockerfile
+          suffix: ''
+          # We need to access to the related PHP package inside the organization.
+          gh_registry_user: ${{ vars.GH_REGISTRY_USER }}
+          gh_registry_token: ${{ secrets.GH_REGISTRY_TOKEN }}
+          build-args: ${{ vars.PHP_DOCKERFILE_BUILD_ARGS || '' }}
+
+  build-php-xdebug:
+    permissions:
+      contents: read
+      packages: write
+    needs: [ env_vars, build-dependencies ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - # noinspection UndefinedAction
+        uses: ./.github/actions/docker-build
+        with:
+          registry: ${{ needs.env_vars.outputs.registry }}
+          image_name: ${{ needs.env_vars.outputs.image_name }}-php
+          dockerfile: ./services/php/Dockerfile-xdebug
+          suffix: '-xdebug'
+          # We need to access to the related PHP package inside the organization.
+          gh_registry_user: ${{ vars.GH_REGISTRY_USER }}
+          gh_registry_token: ${{ secrets.GH_REGISTRY_TOKEN }}
+          build-args: ${{ vars.PHP_DOCKERFILE_BUILD_ARGS || '' }}
+
+  build-nginx:
+    permissions:
+      contents: read
+      packages: write
+    needs: [env_vars, build-dependencies]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - # noinspection UndefinedAction
+        uses: ./.github/actions/docker-build
+        with:
+          registry: ${{ needs.env_vars.outputs.registry }}
+          image_name: ${{ needs.env_vars.outputs.image_name }}-nginx
+          dockerfile: ./services/nginx/Dockerfile
+          # FASTCGI_URL should not exceed 15 characters (K8S limitation).
+          build-args: ${{ vars.NGINX_DOCKERFILE_BUILD_ARGS || '' }}

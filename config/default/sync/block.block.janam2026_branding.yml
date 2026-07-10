@@ -1,0 +1,25 @@
+uuid: 36174d6b-ee9b-4490-b6e5-09f32ccca82b
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - janam2026
+_core:
+  default_config_hash: pPiAG0g_poXy2tiekiP5R_QxzFo5gK7TYtgtcCrFXrk
+id: janam2026_branding
+theme: janam2026
+region: header
+weight: -4
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Identité du site'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

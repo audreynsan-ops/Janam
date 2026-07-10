@@ -1,0 +1,89 @@
+services:
+  php:
+    container_name: ${PROJECT_NAME}_php
+    image: ${DOCKER_IMAGE_PHP:-ghcr.io/aion-solutions/php-8.3:8.3.21-r1-xdebug}
+    env_file:
+      - .env
+    environment:
+      PROJECT_NAME: ${PROJECT_NAME:-undefined}
+      HISTFILE: /app/.bash_history
+      HISTSIZE: 1000
+      SAVEHIST: 1000
+      APP_URL: $PROJECT_NAME.a12s.local
+      PHP_IDE_CONFIG: serverName=${PHP_IDE_SERVER_NAME:-${PROJECT_NAME}-server}
+      XDEBUG_CONFIG: client_host=host.docker.internal
+      DATABASE_NAME: "${DATABASE_NAME:-${PROJECT_NAME}}"
+      DATABASE_DRIVER: "${DATABASE_DRIVER:-mysql}"
+      DATABASE_HOST: "${DATABASE_HOST:-mariadb}"
+      DATABASE_USER: "${DATABASE_USER:-root}"
+      DATABASE_PASSWORD: "${DATABASE_PASSWORD:-dev}"
+      DATABASE_PORT: "${DATABASE_PORT:-3306}"
+      SMTP_TRANSPORT: "${SMTP_TRANSPORT:-smtp}"
+      SMTP_HOST: "${SMTP_HOST:-mailhog}"
+      SMTP_PORT: "${SMTP_PORT:-1025}"
+      DRUPAL_INSTALL_ADMIN_ACCOUNT_NAME: "${DRUPAL_INSTALL_ADMIN_ACCOUNT_NAME:-Webmaster}"
+      DRUPAL_INSTALL_ADMIN_ACCOUNT_MAIL: "${DRUPAL_INSTALL_ADMIN_ACCOUNT_MAIL:-dev@aion-solutions.lu}"
+      DRUPAL_INSTALL_DEFAULT_TIMEZONE: "${DRUPAL_INSTALL_DEFAULT_TIMEZONE:-Europe/Luxembourg}"
+      DRUPAL_INSTALL_DISABLE_UPDATE: "${DRUPAL_INSTALL_DISABLE_UPDATE:-1}"
+      APP_ENV: "local"
+      APP_SCHEME: "https://"
+      DRUSH_ALLOW_XDEBUG: 1
+    volumes:
+      - .:/app
+      - ../public/:/app/web/sites/default/files
+      - ../private/:/app/private
+      - ./services/php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./local/bash_history.txt:/app/.bash_history
+      - ./local/99-local-php.ini:/usr/local/etc/php/conf.d/99-local-php.ini:ro
+      - ${AION_CERTIFICATES_PATH:-~/Projects/aion-docker/traefik-db/config}/a12s.local.pem:/usr/local/share/ca-certificates/a12s.local.pem
+    labels:
+      - traefik.enable=false
+    entrypoint: /bin/sh -c "apk add --no-cache ca-certificates && update-ca-certificates && php-fpm"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  composer:
+    container_name: ${PROJECT_NAME}_composer
+    build:
+      context: .
+      dockerfile: local/composer.Dockerfile
+      args:
+        BASE_IMAGE: ${DOCKER_IMAGE_PHP:-ghcr.io/aion-solutions/php-8.3:8.3.21-r1-xdebug}
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - ~/.composer:/root/.composer
+    working_dir: /app
+    entrypoint: ["composer"]
+
+  nginx:
+    container_name: ${PROJECT_NAME}_nginx
+    image: ${DOCKER_IMAGE_NGINX:-nginx:1.28-alpine}
+    env_file:
+      - .env
+    environment:
+      NGINX_ALLOWED_PHP_FILES: ${NGINX_ALLOWED_PHP_FILES:-index|core/install}
+      FASTCGI_URL: ${PROJECT_NAME}_php
+      FASTCGI_PORT: 9000
+      FASTCGI_EXTRA_DIRECTIVES: |
+        # debug: set a very long timeout for the debugger : 10 minutes
+        fastcgi_read_timeout 1800;
+    volumes:
+      - .:/app
+      - ../public/:/app/web/sites/default/files
+      - ../private/:/app/private
+      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf.template:ro
+      - ./services/nginx/static-error-pages:/app/static-error-pages
+      - ./local/99-render-config.sh:/docker-entrypoint.d/99-render-config.sh:ro
+    extra_hosts:
+      - "${PROJECT_NAME}.a12s.local:172.18.0.100"
+
+  nginx_with_labels:
+    extends:
+      file: base-services.yml
+      service: nginx
+    labels:
+      - traefik.http.services.app-$PROJECT_NAME.loadbalancer.server.port=8000
+      - traefik.http.routers.app-$PROJECT_NAME-https.rule=Host(`$PROJECT_NAME.a12s.local`)
+      - traefik.http.routers.app-$PROJECT_NAME-https.tls=true

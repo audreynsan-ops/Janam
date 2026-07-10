@@ -1,0 +1,27 @@
+services:
+  php:
+    extends:
+      file: base-services.yml
+      service: php
+    networks:
+      - a12s-local
+
+  composer:
+    extends:
+      file: base-services.yml
+      service: composer
+    networks:
+      - a12s-local
+
+  nginx:
+    extends:
+      file: base-services.yml
+      service: nginx_with_labels
+    depends_on:
+      - php
+    networks:
+      - a12s-local
+
+networks:
+  a12s-local:
+    external: true

@@ -1,0 +1,26 @@
+{% set content_attributes = content_attributes.addClass([
+  'layout-content',
+  'col-12',
+  page.sidebar_first ? 'col-md-9',
+  page.sidebar_first ? 'col-xl-10',
+]) %}
+
+{{ attach_library('janam2026/maintenance') }}
+
+<div class="layout-container mx-0 pl-0">
+  <div role="main" class="main-content">
+    <a id="main-content"></a>
+    <div class="header container text-center">
+      <a href="{{ path('<front>') }}" rel="home" class="text-decoration-none m-auto">
+        {{ source("@janam2026/logo.svg") }}
+      </a>
+    </div>
+    <div class="maintenance-content text-center">
+      {% if title %}
+        <h1 class="text-primary">{{ title }}</h1>
+      {% endif %}
+
+      {{ page.content }}
+    </div>
+    </div>
+</div>

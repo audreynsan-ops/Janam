@@ -1,0 +1,40 @@
+/**
+ * Stack Icons mixin.
+ *
+ * @param {String} $icon - Name of icon.
+ * @param {String} $pseudo [before] - `before` | `after` The pseudo element to place the icon in.
+ * @todo Allow `$pseudo: false` to be declared so we don't have to use a pseudo element if we don't want to.
+ * @param {Bool} $text-replace [false]
+ * @param {String} $height
+ * @param {String} $width
+ * @param {String} $color [inherit]
+ * @param {String} $display [inline-block]
+ *
+ * @example scss
+ * .class {
+ *   @include stack-icon('close');
+ * }
+ */
+/**
+ * Stack Icons mask mixin.
+ */
+/**
+ * Write icon properties from a map.
+ *
+ * @param {Map} $map - Map of properties.
+ */
+#back-to-top {
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  z-index: 100;
+}
+@media (min-width: 992px) {
+  #back-to-top {
+    right: 40px;
+  }
+}
+#back-to-top:hover {
+  background-color: var(--sand-2);
+  color: var(--primary);
+}
+/*# sourceMappingURL=back-to-top.css.map */

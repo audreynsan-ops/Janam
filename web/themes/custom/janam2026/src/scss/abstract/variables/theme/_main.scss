@@ -1,0 +1,115 @@
+//
+// Main settings
+//
+
+@use "sass:math";
+@use "colors";
+
+
+//
+// Page settings
+//
+
+$container-max-widths: (
+  "": 1650px,
+  "medium": 1380px,
+  "small": 960px,
+  "extra-small": 560px,
+);
+$grid-breakpoints: (
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+  xxl,
+);
+$flex-breakpoints: (
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+  xxl,
+);
+$spacing-breakpoints: (
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+  xxl,
+);
+$spacers: (
+  "0": var(--spacer-0),
+  "1": var(--spacer-1),
+  "2": var(--spacer-2),
+  "3": var(--spacer-3),
+  "4": var(--spacer-4),
+  "5": var(--spacer-5),
+);
+$display-breakpoints: (
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+  xxl,
+);
+$enable-rounded: true;;
+$enable-pointer-cursor-for-buttons: true;;
+$enable-borders: true;;
+$enable-background-colors: true;;
+$enable-transitions: true;;
+$enable-prefers-reduced-motion-media-query: true;;
+$enable-negative-margins: false;;
+$enable-display-print: false;;
+$enable-flex-fill: false;;
+$enable-flex-reverse: false;;
+
+//
+// Text
+//
+
+$text-align-breakpoints: (
+  xs,
+  sm,
+  md,
+  lg,
+);
+$text-colors: (
+  "white": white,
+  "black": black,
+  "body": var(--body-color),
+  "muted": var(--text-muted, #808080),
+  "success": var(--success),
+  "warning": var(--warning),
+  "error": var(--error),
+);
+
+//
+// Typography
+//
+
+$html-font-size: 16px;
+$font-family-base: 'Jost', sans-serif;
+$font-family-serif: 'Cormorant Garamond',serif;
+$font-variant-numeric: lining-nums;
+$font-feature-settings: lnum;
+$line-height-base: 1;
+$font-weight-light: 200;
+$font-weight-base: 300;
+$font-weight-bold: 700;
+$display-line-height: 1.5;
+$body-bg: colors.$gray-100;
+$body-color: colors.$brown-1;
+
+//
+// Transitions
+//
+
+$transition-duration-default: .3s;
+$transition-base: all $transition-duration-default ease-in-out;
+$transition-fade: opacity #{math.div($transition-duration-default, 2)} linear;
+$transition-collapse: height $transition-duration-default ease;
+$transition-collapse-width: width $transition-duration-default ease;

@@ -1,0 +1,93 @@
+//
+// This file isn't included to the functions module, as it is only necessary for internal process.
+//
+// @internal
+//
+
+@use "sass:string";
+@use "sass:map";
+@use "sass:meta";
+@use "../../abstract/variables";
+
+/**
+ * Builds a map of arguments to pass to a mixin, including only variables that exist.
+ *
+ * Returns only the key-value pairs for variables that are defined, allowing
+ * mixin defaults to take effect for undefined variables.
+ *
+ * This is compliant to allow using a null value for a specific variable, so
+ * this "null" value can be used to override the default one.
+ *
+ * @param {Map} $variable-map - Map with keys as parameter names and values as variable names to check
+ * @return {Map} Filtered map with only existing variables
+ * @example scss
+ *   $args: gather-mixin-args((
+ *     "border-width": "border-width",
+ *     "border-radius": "border-radius"
+ *   ), "variables", variables);
+ *   @include meta.load-css("module-path", $args);
+ */
+@function gather-global-variables($variable-map) {
+  $args: ();
+
+  @each $param-name, $var-name in $variable-map {
+    @if meta.global-variable-exists($var-name, "variables") {
+      $args: map.set($args, $param-name, map.get(meta.module-variables("variables"), $var-name));
+    }
+  }
+
+  @return $args;
+}
+
+@function gather-properties($variables, $prefix, $separator: "-") {
+  $properties: ();
+  $index: string.length($prefix) + string.length($separator);
+
+  @each $key in $variables {
+    $key-prefix: string.slice($key, 1, $index);
+    $property: string.slice($key, ($index + 1));
+
+    @if $key-prefix == "#{$prefix}#{$separator}" and string.length($property) >= 3 {
+      $properties: map.set($properties, $property, $key);
+    }
+  }
+
+  @return $properties;
+}
+
+@function gather-root-variables($variables-per-breakpoint, $variables) {
+  @each $key, $value in $variables {
+    @if meta.type-of($value) == "map" {
+      @each $breakpoint, $nested-value in $value {
+        $variables-per-breakpoint: -set-variable-per-breakpoint($variables-per-breakpoint, $breakpoint, $key, $nested-value);
+      }
+    }
+    @else {
+      $variables-per-breakpoint: -set-variable-per-breakpoint($variables-per-breakpoint, "", $key, $value);
+    }
+  }
+
+  @return $variables-per-breakpoint;
+}
+
+@function -set-variable-per-breakpoint($variables-per-breakpoint, $breakpoint, $key, $value) {
+  $nested-variables: if(map.has-key($variables-per-breakpoint, $breakpoint), map.get($variables-per-breakpoint, $breakpoint), ());
+  $nested-variables: map.set($nested-variables, $key, $value);
+  @return map.set($variables-per-breakpoint, $breakpoint, $nested-variables);
+}
+
+@mixin print-css-variables($variables) {
+  @each $key, $value in $variables {
+    --#{$key}: #{meta.inspect($value)};
+  }
+}
+
+@mixin print-selectors($selectors, $properties) {
+  @if meta.type-of($properties) == "map" {
+    #{$selectors} {
+      @each $property, $name in $properties {
+        #{$property}: var(--#{$name});
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+uuid: 72497e33-5223-4724-8949-972901273068
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - janam2026
+_core:
+  default_config_hash: 0rey45JLXeZIp2VARUkQgN2DX9q2DhOpbgOXbpR7vjU
+id: janam2026_content
+theme: janam2026
+region: content
+weight: -5
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Contenu de la page principale'
+  label_display: '0'
+  provider: system
+visibility: {  }

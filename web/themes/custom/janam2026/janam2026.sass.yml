@@ -1,0 +1,669 @@
+# Defines the breakpoints used in the theme.
+#
+# @example
+# breakpoints:
+#   types: ['group']
+#   label: 'Breakpoints'
+#   variables:
+#     breakpoints:
+#       xs: 0
+#       sm: 568px
+#       md: 768px
+#       lg: 992px
+#       xl: 1256px
+#       xxl: 1520px
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# breakpoints:
+#   types: ['group', 'parent']
+#   label: 'Breakpoints'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/breakpoints'
+breakpoints:
+  types: ['group']
+  label: 'Breakpoints'
+  variables:
+    breakpoints:
+      xs: 0
+      sm: 568px
+      md: 768px
+      lg: 992px
+      xl: 1256px
+      xxl: 1520px
+
+# Defines the colors used in the theme.
+#
+# Some children of this group are also declared as "root", meaning that the colors are declared as root CSS variables.
+#
+# @example
+# colors:
+#   types: ['group']
+#   label: 'Colors'
+#   # Grayscale
+#   grayscale:
+#     types: ['variables']
+#     label: 'Grayscale'
+#     variables: &colors-grayscale
+#       white: 'white'
+#       gray-100: '#F4F4F4'
+#       gray-500: '#A8ABAF'
+#       gray-900: '#282828'
+#       black: 'black'
+#   # Theme
+#   theme:
+#     types: ['variables']
+#     label: 'Theme main colors'
+#     variables: &colors-theme
+#       primary: '#009ddf'
+#       info: '#007bff'
+#       error: '#dc3545'
+#       warning: '#ffc107'
+#       success: '#28a745'
+#       light: $gray-100
+#       gray: $gray-300
+#       dark: $gray-800
+#   # Variants
+#   variants:
+#     types: ['variables']
+#     label: 'Variants'
+#     description: 'Those colors are used to create variants for background, buttons...'
+#     variables:
+#       border-colors:
+#         white: $white
+#         dark: $dark
+#         primary: $primary
+#       background-colors:
+#         transparent: transparent
+#         white: $white
+#         light: $light
+#         gray: $gray
+#         dark: $dark
+#         black: $black
+#         primary: $primary
+#       button-colors:
+#         black: $black
+#         white: $white
+#         primary: $primary
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# colors:
+#   types: ['group', 'parent']
+#   label: 'Colors'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/colors'
+colors:
+  types: ['group']
+  label: 'Colors'
+  # Grayscale
+  grayscale:
+    types: [ 'variables' ]
+    label: 'Grayscale'
+    variables: &colors-grayscale
+      transparent: 'transparent'
+      white: 'white'
+      gray-100: '#F8F5F0'
+      gray-300: '#EDE4DC'
+      gray-500: '#A8ABAF'
+      gray-600: '#8E8E8E'
+      gray-900: '#282828'
+      black: 'black'
+  # Palette
+  palette:
+    types: [ 'variables' ]
+    label: 'Palette'
+    variables: &colors-palette
+       green-1: '#445849'
+       green-2: '#4E6654'
+       green-3: '#EDF2EE'
+       or-1: '#C2A478'
+       or-2: '#D4B896'
+       or-3: '#E8D5BC'
+       brown-1: '#2A2420'
+       brown-2: '#6A5E54'
+       brown-3: '#B0A498'
+  # Theme
+  theme:
+    types: [ 'variables' ]
+    label: 'Theme main colors'
+    variables: &colors-theme
+      primary: $green-1
+      secondary: '#F8F5F0'
+      info: '#E8D5BC'
+      error: '#dc3545'
+      warning: '#ffc107'
+      success: '#28a745'
+      light: $gray-100
+      gray: $gray-300
+      dark: $gray-900
+  # Variants
+  variants:
+    types: [ 'variables' ]
+    label: 'Variants'
+    description: 'Those colors are used to create variants for background, buttons...'
+    variables:
+      border-colors:
+        white: $white
+        dark: $dark
+        primary: $primary
+      background-colors:
+        transparent: transparent
+        white: $white
+        light: $light
+        gray: $gray
+        black: $black
+        primary: $primary
+
+# Defines the global style used in the theme.
+#
+# main:
+#   types: ['group']
+#   label: 'Main settings'
+#   dependencies:
+#     - sass:math
+#     - colors
+#   # Page
+#   page:
+#     types: ['variables']
+#     label: 'Page settings'
+#     variables:
+#       body-bg: colors.$white
+#       body-color: colors.$black
+#       container-max-widths:
+#         '': 1650px
+#         medium: 1380px
+#         small: 960px
+#         extra-small: 560px
+#       grid-breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+#       flex-breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+#       spacing-breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+#       spacers:
+#         0: var(--spacer-0)
+#         1: var(--spacer-1)
+#         2: var(--spacer-2)
+#         3: var(--spacer-3)
+#         4: var(--spacer-4)
+#         5: var(--spacer-5)
+#       display-breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+#   # Text
+#   text:
+#     types: ['variables']
+#     label: 'Text'
+#     variables:
+#       text-align-breakpoints: ['xs', 'sm', 'md', 'lg']
+#       text-colors:
+#         white: white
+#         black: black
+#         body: var(--body-color)
+#         muted: 'var(--text-muted, #808080)'
+#         success: var(--success)
+#         warning: var(--warning)
+#         error: var(--error)
+#   # Transitions
+#   transitions:
+#     types: ['variables']
+#     label: "Transitions"
+#     variables:
+#       transition-duration-default: .3s
+#       transition-base: all $transition-duration-default ease-in-out
+#       transition-fade: "opacity #{math.div($transition-duration-default, 2)} linear"
+#       transition-collapse: height $transition-duration-default ease
+#       transition-collapse-width: width $transition-duration-default ease
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# main:
+#   types: ['group', 'parent']
+#   label: 'Main settings'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/main'
+main:
+  types: ['group']
+  label: 'Main settings'
+  dependencies:
+    - sass:math
+    - colors
+  # Page
+  page:
+    types: [ 'variables' ]
+    label: 'Page settings'
+    variables:
+      container-max-widths:
+        '': 1650px
+        medium: 1380px
+        small: 960px
+        extra-small: 560px
+      grid-breakpoints: [ 'xs', 'sm', 'md', 'lg', 'xl', 'xxl' ]
+      flex-breakpoints: [ 'xs', 'sm', 'md', 'lg', 'xl', 'xxl' ]
+      spacing-breakpoints: [ 'xs', 'sm', 'md', 'lg', 'xl', 'xxl' ]
+      spacers:
+        0: var(--spacer-0)
+        1: var(--spacer-1)
+        2: var(--spacer-2)
+        3: var(--spacer-3)
+        4: var(--spacer-4)
+        5: var(--spacer-5)
+      display-breakpoints: [ 'xs', 'sm', 'md', 'lg', 'xl', 'xxl' ]
+      # Options
+      enable-rounded: true;
+      enable-pointer-cursor-for-buttons: true;
+      enable-borders: true;
+      enable-background-colors: true;
+      enable-transitions: true;
+      enable-prefers-reduced-motion-media-query: true;
+      enable-negative-margins: false;
+      enable-display-print: false;
+      enable-flex-fill: false;
+      enable-flex-reverse: false;
+  # Text
+  text:
+    types: [ 'variables' ]
+    label: 'Text'
+    variables:
+      text-align-breakpoints: [ 'xs', 'sm', 'md', 'lg' ]
+      text-colors:
+        white: white
+        black: black
+        body: var(--body-color)
+        muted: 'var(--text-muted, #808080)'
+        success: var(--success)
+        warning: var(--warning)
+        error: var(--error)
+  # Typography
+  typography:
+    # "root" type do nothing by itself there; it is just a tag indicating that the variables below are included in the
+    # root variables after. The purpose is to remind that we should define as least variables as possible here.
+    types: [ 'variables', 'root' ]
+    label: Typography
+    variables: &typography
+      html-font-size: 16px
+      font-family-base: "'Jost', sans-serif"
+      font-family-serif: "'Cormorant Garamond',serif"
+      font-variant-numeric: lining-nums
+      font-feature-settings: "lnum"
+      line-height-base: 1
+      font-weight-light: 200
+      font-weight-base: 300
+      font-weight-bold: 700
+      display-line-height: 1.5
+      body-bg: colors.$gray-100
+      body-color: colors.$brown-1
+
+  # Transitions
+  transitions:
+    types: [ 'variables' ]
+    label: "Transitions"
+    variables:
+      transition-duration-default: .3s
+      transition-base: all $transition-duration-default ease-in-out
+      transition-fade: "opacity #{math.div($transition-duration-default, 2)} linear"
+      transition-collapse: height $transition-duration-default ease
+      transition-collapse-width: width $transition-duration-default ease
+
+# Defines the links style used in the theme.
+#
+# @example
+# link:
+#   types: ['root']
+#   dependencies:
+#     - colors
+#   label: 'Link'
+#   variables:
+#     link-color: colors.$primary
+#     link-decoration: none
+#     link-transition: .3s all ease-in-out
+#     link-color-hover: colors.$gray-900
+#     link-hover-decoration: none
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# link:
+#   types: ['root', 'parent']
+#   label: 'Main settings'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/link'
+link:
+  types: ['variables']
+  dependencies:
+    - colors
+  label: 'Link'
+  variables: &link
+    link-color: colors.$primary
+    link-decoration: none
+    link-transition: .3s all ease-in-out
+    link-color-hover: colors.$gray-900
+    link-hover-decoration: none
+
+# Defines the buttons style used in the theme.
+#
+# @example
+# buttons:
+#   types: ['group']
+#   label: 'Buttons'
+#   dependencies:
+#     - colors
+#     - main
+#   variants:
+#     types: ['variables']
+#     label: 'Button variants'
+#     variables:
+#       btn-colors:
+#         black: colors.$white
+#         white: colors.$black
+#         primary: colors.$white
+#         secondary: colors.$white
+#       btn-bg-colors:
+#         black: colors.$black
+#         white: colors.$white
+#         primary: colors.$primary
+#         secondary: colors.$secondary
+#       btn-border-colors:
+#         black: colors.$white
+#         white: colors.$black
+#         primary: colors.$primary
+#         secondary: colors.$secondary
+#       btn-hover-colors:
+#         black: colors.$black
+#         white: colors.$white
+#         primary: colors.$primary
+#         secondary: colors.$secondary
+#       btn-hover-bg-colors:
+#         black: colors.$white
+#         white: colors.$black
+#         primary: colors.$white
+#         secondary: colors.$white
+#       btn-hover-border-colors:
+#         black: colors.$black
+#         white: colors.$white
+#         primary: colors.$primary
+#         secondary: colors.$secondary
+#   settings:
+#     types: ['variables', 'root']
+#     variables: &button-settings
+#       btn-border-radius: .313rem
+#       btn-display: inline-block
+#       btn-font-weight: main.$font-weight-base
+#       btn-line-height: 120%
+#       btn-letter-spacing: .8px
+#       btn-text-transform: uppercase
+#       btn-transition: .2s all ease-in-out
+#       btn-font-size:
+#         xs: .75rem
+#         lg: 1rem
+#       btn-padding:
+#         xs: .65rem 1.375rem
+#         lg: .938rem 1.875rem
+#       btn-xs-letter-spacing: .6px
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# buttons:
+#   types: ['group', 'parent']
+#   label: 'Buttons'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/buttons'
+buttons:
+  types: ['group']
+  label: 'Buttons'
+  dependencies:
+    - colors
+    - main
+  variants:
+    types: ['variables']
+    label: 'Button variants'
+    variables:
+      btn-colors:
+        primary: colors.$white
+        secondary: colors.$white
+        outline-primary: colors.$primary
+      btn-bg-colors:
+        primary: colors.$primary
+        secondary: colors.$secondary
+        #outline-primary: colors.$transparent
+      btn-border-colors:
+        primary: colors.$primary
+        secondary: colors.$secondary
+        outline-primary: colors.$primary
+      btn-hover-colors:
+        primary: colors.$green-2
+        secondary: colors.$secondary
+        outline-primary: colors.$white
+      btn-hover-bg-colors:
+        primary: colors.$white
+        secondary: colors.$white
+        outline-primary: colors.$primary
+      btn-hover-border-colors:
+        primary: colors.$primary
+        secondary: colors.$secondary
+        outline-primary: colors.$primary
+  settings:
+    types: ['variables', 'root']
+    variables: &button-settings
+      btn-border-radius: 0
+      btn-display: inline-block
+      btn-font-weight: 500
+      #btn-line-height: 120%
+      btn-text-transform: uppercase
+      btn-transition: .3s all ease-in-out
+      btn-font-size: 10px
+      btn-padding: 10px 22px
+      btn-cursor: pointer
+
+# Defines the variables style used in the theme.
+#
+# Note that only basic types can be used as CSS variables, not lists or maps, except for maps using keys related to the
+# breakpoints.
+#
+# @example
+# grid-gap:
+#   xs: 1.25rem
+#   xxl: 1.875rem
+#
+# The code above is converted to:
+# :root {
+#   --grid-gap: 1.25rem;
+# }
+#
+# @media (min-width: 1520px) {
+#   :root {
+#     --grid-gap: 1.875rem;
+#   }
+# }
+#
+# @example
+# root:
+#   types: ['root']
+#   label: 'CSS root variables'
+#   dependencies:
+#     - colors
+#     - main
+#   variables:
+#     <<: [*colors-grayscale, *colors-theme, *link, *typography, *button-settings]
+#     html-font-size: 16px
+#     font-family-base: "'Helvetica', sans-serif"
+#     font-family-serif: "'Arial', serif"
+#     font-variant-numeric: lining-nums
+#     font-feature-settings: "lnum"
+#     line-height-base: 1
+#     body-bg: main.$body-bg
+#     body-color: main.$body-color
+#     # Menu
+#     menu-link-color: colors.$primary
+#     menu-link-font-size: .875rem
+#     menu-link-line-height: 1.3
+#     menu-link-padding-x: 1rem
+#     menu-link-padding-y: .25rem
+#     menu-link-transform: uppercase
+#     # Typography
+#     font-weight-light: 300
+#     font-weight-base: 400
+#     font-weight-bold: 700
+#     display-line-height: 1.5
+#     # Heading
+#     headings-max-level: 5
+#     # Borders
+#     border-width: .125rem
+#     border-radius-sm: .2rem
+#     border-radius: .3125rem
+#     # Grid
+#     grid-gap-default: 2.5rem
+#     grid-gap:
+#       xs: 1.25rem
+#       xxl: 1.875rem
+#     # Spacing
+#     spacer-0: 0
+#     spacer-1: .625rem
+#     spacer-2: 1rem
+#     spacer-3: 1.5rem
+#     spacer-4: 2rem
+#     spacer-5: 3rem
+#     # Input
+#     input-padding-x: 1.25rem
+#     input-padding-y: .625rem
+#     input-font-size: .75rem
+#     # Drupal toolbar
+#     toolbar-fixed-padding: 39px
+#     toolbar-fixed-tray-open-padding: 79px
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# root:
+#   types: ['root', 'parent']
+#   label: 'CSS root variables'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/root'
+root:
+  types: ['root']
+  label: 'CSS root variables'
+  dependencies:
+    - colors
+    - main
+  variables:
+    <<: [*colors-grayscale, *colors-palette, *colors-theme, *link, *typography, *button-settings]
+    # Menu
+    menu-link-color: colors.$primary
+    menu-link-font-size: .875rem
+    menu-link-line-height: 1.3
+    menu-link-padding-x: 1rem
+    menu-link-padding-y: .25rem
+    menu-link-transform: uppercase
+    # Heading
+    headings-max-level: 5
+    # Borders
+    border-width: .125rem
+    border-radius-sm: .2rem
+    border-radius: .3125rem
+    # Grid
+    grid-gap-default: 2.5rem
+    grid-gap:
+      xs: 1.25rem
+      xxl: 1.875rem
+    # Spacing
+    spacer-0: 0
+    spacer-1: .625rem
+    spacer-2: 1rem
+    spacer-3: 1.5rem
+    spacer-4: 2rem
+    spacer-5: 3rem
+    # Input
+    input-padding-x: 1.25rem
+    input-padding-y: .625rem
+    input-font-size: .75rem
+    # Drupal toolbar
+    toolbar-fixed-padding: 60px
+    toolbar-fixed-tray-open-padding: 100px
+
+# Defines the font size style used in the theme.
+#
+# @example
+# root-font-sizes:
+#   types: ['root']
+#   label: 'Root font sizes'
+#   variables:
+#     font-size-base:
+#       xs: .75rem
+#       md: 1rem
+#     font-size-sm: .875rem
+#     font-size-lg:
+#       xs: 1rem
+#       md: 1.125rem
+#     font-size-xl:
+#       xs: 1.3rem
+#       md: 1.6rem
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# root-font-sizes:
+#   types: ['root', 'parent']
+#   label: 'Root font sizes'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/root-font-sizes'
+root-font-sizes:
+  types: ['root']
+  label: 'Root font sizes'
+  variables:
+    font-size-base:
+      xs: .75rem
+      md: 1rem
+    font-size-sm: .875rem
+    font-size-lg:
+      xs: 1rem
+      md: 1.125rem
+    font-size-xl:
+      xs: 1.3rem
+      md: 1.6rem
+
+# Defines the headings style used in the theme.
+#
+# @example
+# headings:
+#   types: ['root']
+#   label: 'Heading properties'
+#   dependencies:
+#     - main
+#     - root
+#   variables:
+#     headings-color: main.$body-color
+#     headings-font-family: root.$font-family-base
+#     headings-margin-bottom:
+#       xs: .625rem
+#       lg: 1.25rem
+#     headings-font-weight: 700
+#     headings-text-transform: unset
+#     headings-line-height: 1.4
+#     h1-font-size: 2.5rem
+#     h2-font-size: 2.125rem
+#     h3-font-size: 1.8rem
+#     h4-font-size: 1.6rem
+#     h5-font-size: 1.3rem
+#     h6-font-size: 1.2rem
+#
+# Important: By default, it is necessary to reference the parent in order to build the theme.
+#
+# @example
+# headings:
+#   types: ['root', 'parent']
+#   label: 'Heading properties'
+#   parent: '../../../../../../../contrib/a12s_basetheme/src/scss/abstract/variables/theme/headings'
+headings:
+  types: ['root']
+  label: 'Heading properties'
+  dependencies:
+    - main
+    - root
+  variables:
+    headings-color: main.$body-color
+    headings-font-family: root.$font-family-base
+    headings-margin-bottom:
+      xs: .625rem
+      lg: 1.25rem
+    headings-font-weight: 300
+    headings-text-transform: unset
+    headings-line-height: 1.4
+    h1-font-size: 2.5rem
+    h2-font-size: 2.125rem
+    h3-font-size: 1.8rem
+    h4-font-size: 1.6rem
+    h5-font-size: 1.3rem
+    h6-font-size: 1.2rem

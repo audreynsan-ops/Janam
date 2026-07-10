@@ -1,0 +1,32 @@
+.region--offcanvas {
+  > .sdc-offcanvas {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .toggle-offcanvas {
+    background-color: transparent;
+    height: 75px;
+    left: unset;
+    padding: 1.6rem 0;
+    right: 36px;
+
+    .bar {
+      background-color: var(--dark);
+    }
+  }
+
+  .accordion-toggle[aria-expanded="true"] {
+    .toggle-offcanvas {
+      .bar {
+        &:first-child {
+          transform: translateY(11px) rotate(45deg);
+        }
+
+        &:last-child {
+          transform: translateY(-10px) rotate(-45deg);
+        }
+      }
+    }
+  }
+}

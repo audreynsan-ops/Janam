@@ -1,0 +1,50 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - a12s_theme_builder
+    - system
+  theme:
+    - janam2026
+third_party_settings:
+  a12s_theme_builder:
+    menu_attributes:
+      attributes:
+        -
+          element: ul
+          attribute: class
+          value: menu
+          settings:
+            aria_attribute:
+              name: aria-autocomplete
+        -
+          element: li
+          attribute: class
+          value: menu-item
+          settings:
+            aria_attribute:
+              name: aria-autocomplete
+        -
+          element: a
+          attribute: class
+          value: menu-link
+          settings:
+            aria_attribute:
+              name: aria-autocomplete
+id: janam2026_offcanvas_main_menu
+theme: janam2026
+region: offcanvas
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 2
+  expand_all_items: false
+visibility: {  }

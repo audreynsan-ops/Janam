@@ -1,0 +1,21 @@
+services:
+
+#  php:
+#    environment:
+#      CURRENT_UID: "${CURRENT_UID:-501}"
+#      CURRENT_GID: "${CURRENT_GID:-20}"
+#    volumes:
+#      - ./local/php-entrypoint.sh:/usr/local/bin/php-entrypoint.sh:ro
+#    entrypoint: /usr/local/bin/php-entrypoint.sh
+
+  composer:
+    profiles:
+      - donotstart
+
+#  nginx:
+#    environment:
+#      CURRENT_UID: "${CURRENT_UID:-501}"
+#      CURRENT_GID: "${CURRENT_GID:-20}"
+#    volumes:
+#      - ./local/nginx-entrypoint.sh:/usr/local/bin/nginx-entrypoint.sh:ro
+#    entrypoint: /usr/local/bin/nginx-entrypoint.sh

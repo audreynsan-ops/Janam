@@ -1,0 +1,53 @@
+@use "../abstract/mixins";
+
+#block-janam2026-main-menu {
+  display: none;
+
+  @include mixins.media-breakpoint-up(lg) {
+    display: block;
+  }
+
+  .accordion {
+    margin-bottom: 0;
+    margin-top: 0;
+
+    .disclosure-panel-content {
+      padding: 0;
+    }
+  }
+
+  .accordion-toggle {
+    background: transparent;
+
+    @include mixins.stack-icon('arrow-down', 'after') {
+      font-size: .4rem;
+      transition: .3s transform ease-in-out;
+    };
+
+    &[aria-expanded="true"] {
+      &:after {
+        transform: rotate(180deg);
+      }
+    }
+
+    .menu-link {
+      margin-right: .4rem;
+    }
+  }
+
+  .menu-level-0 {
+    align-items: center;
+    height: 100%;
+  }
+
+  .menu-item-0 {
+    > .sdc-accordion > .accordion > .disclosure-panel {
+      background-color: var(--gray);
+      box-shadow: 0 4px 7px rgba(0, 0, 0, .2);
+      grid-template-columns: min-content;
+      text-align: center;
+      position: absolute;
+      top: 100%;
+    }
+  }
+}

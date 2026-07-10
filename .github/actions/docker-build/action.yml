@@ -1,0 +1,107 @@
+name: 'Docker Build'
+description: 'Build and push a Docker image with dependencies'
+
+inputs:
+  registry:
+    description: 'Image registry'
+    required: true
+    type: string
+  image_name:
+    description: 'Image name'
+    required: true
+    type: string
+  dockerfile:
+    description: 'Path to Dockerfile'
+    required: true
+    type: string
+  build-args:
+    description: 'Arguments for Docker build'
+    required: false
+    type: string
+  suffix:
+    description: 'Tag suffix'
+    required: false
+    type: string
+    default: ''
+  gh_registry_user:
+    default: ''
+    description: 'GitHub registry user'
+    required: false
+    type: string
+  gh_registry_token:
+    default: ''
+    description: 'GitHub registry token'
+    required: false
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: ${{ inputs.dockerfile }}
+        ignore: DL3018,SC2086
+
+    # We cannot use artifacts, as the permissions are not kept:
+    # https://github.com/actions/upload-artifact/issues/38
+    #- name: Download dependencies
+    #  uses: actions/download-artifact@v4
+    #  with:
+    #    name: composer-dependencies
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          vendor/
+          web/core/
+          web/libraries/
+          web/modules/contrib/
+          web/profiles/contrib/
+          web/themes/contrib/
+          drush/contrib/
+        key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+
+    - name: Prepare Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ inputs.registry }}/${{ inputs.image_name }}
+        tags: |
+          type=ref,event=tag
+          type=ref,event=branch
+          type=sha,format=short,prefix=,priority=300
+          type=raw,value=latest,enable={{is_default_branch}},prefix=,suffix=
+        flavor: |
+          latest=auto
+          suffix=${{ inputs.suffix }}
+
+    # We may need to access to some packages from other repositories of our
+    # organization.
+    - name: Log in to the Container registry with specific credentials
+      if: inputs.gh_registry_user != '' && inputs.gh_registry_token != ''
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.gh_registry_user }}
+        password: ${{ inputs.gh_registry_token }}
+
+    - name: Build and push Docker image
+      id: push
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: ${{ inputs.dockerfile }}
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        build-args: ${{ inputs.build-args || '' }}

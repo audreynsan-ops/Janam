@@ -1,0 +1,14 @@
+# Git
+.git
+.gitignore
+
+# Gitlab CI
+.gitlab-ci.yml
+
+# Developer files
+/build
+**/.csslintrc
+**/.editorconfig
+**/.eslintignore
+**/.eslintrc.json
+**/.gitattributes

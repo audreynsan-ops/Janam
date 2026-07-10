@@ -1,0 +1,78 @@
+global:
+  js:
+    src/js/behaviors.js:
+      attributes:
+        type: module
+  css:
+    base: {}
+    component: {}
+    layout: {}
+    theme:
+      '//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap': { type: external, minified: true }
+      assets/css/global.css: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.dialog.ajax
+    - core/drupal.debounce
+    - core/once
+    - janam2026/stack-icons
+    - janam2026/vanilla-back-to-top
+
+stack-icons:
+  css:
+    theme:
+      # Overriding attribute "rel" is not supported now, but il may will.
+      # @see https://www.drupal.org/project/drupal/issues/3328221
+      assets/css/stack-icons-standalone.css: { attributes: { rel: preload, as: style } }
+
+drupal-message:
+  css:
+    theme:
+      assets/css/libraries/drupal-message.css: { }
+  js:
+    src/js/drupal/drupalMessages.js: { }
+  dependencies:
+    - core/drupal
+    - core/once
+
+vanilla-back-to-top:
+  js:
+    vendor/vanilla-back-to-top/vanilla-back-to-top.min.js:
+      attributes:
+        defer: true
+        type: module
+      minified: true
+  css:
+    theme:
+      assets/css/libraries/back-to-top.css: { }
+
+maintenance:
+  css:
+    theme:
+      assets/css/core/pages/maintenance.css: { }
+
+4xx:
+  css:
+    theme:
+      assets/css/core/pages/4xx.css: { }
+
+branding:
+  css:
+    theme:
+      assets/css/libraries/branding.css: {}
+
+menu-main:
+  css:
+    theme:
+      assets/css/libraries/menu-main.css: {}
+
+# This is a temporary library for the front page. It needs to be removed once
+# the front page template is split properly in blocks.
+front:
+  js:
+    src/js/front/menu.js: {}
+  css:
+    theme:
+      assets/css/pages/front.css: {}
+  dependencies:
+    - core/drupal.dialog.ajax

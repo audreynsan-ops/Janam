@@ -1,0 +1,77 @@
+{#
+/**
+ * @file
+ * Default theme implementation for Symfony Email wrapper.
+ *
+ * Variables:
+ * - body: Email body content.
+ * - is_html: True if generating HTML output, false for plain text.
+ * - type: Email type.
+ * - sub_type: Email sub-type.
+ * - attributes: HTML attributes for the top-level email element.
+ *
+ * @see template_preprocess_email_wrap()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'email-type-' ~ type|clean_class,
+    'email-sub-type-' ~ sub_type|clean_class,
+  ]
+%}
+
+{% if is_html %}
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <!--[if gte mso 15]>
+  <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+  </xml>
+  <![endif]-->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ subject }}</title>
+
+  <style type="text/css">
+    {{ source('@janam2026/../assets/css/email.css') }}
+  </style></head>
+<body>
+<div{{ attributes.addClass(classes) }}>
+  <center>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+      <tr>
+        <td align="center" valign="top" id="bodyCell">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td align="center" valign="top" id="templateHeader">
+                {% include '@janam2026/email/includes/email-header.twig' %}
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" id="templateBody">
+                {{ body }}
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" id="templateFooter">
+                {% include '@janam2026/email/includes/email-footer.twig' %}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </center>
+</div>
+</body>
+</html>
+{% else %}
+{{ body }}
+{% endif %}

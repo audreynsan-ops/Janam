@@ -1,0 +1,15 @@
+uuid: d9f4ba12-7261-4e9a-8e80-bfe2ea05cc38
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: hGo6PUp6_bg_m9CxTnF16v3ScW3qx6EZZytG-n0-KU0
+id: _
+configuration:
+  mailer_inline_images: {  }
+  mailer_inline_css: {  }
+  email_theme:
+    theme: janam2026
+  mailer_url_to_absolute: {  }
+  mailer_wrap_and_convert:
+    plain: false

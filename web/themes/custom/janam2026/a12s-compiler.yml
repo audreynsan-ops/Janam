@@ -1,0 +1,22 @@
+#
+# SASS configuration.
+#
+scss:
+  enabled: true
+  dirs:
+    #- "components"
+    - source: "src/scss"
+      dest: "assets/css"
+      variables:
+        definitionFile: ../../janam2026.sass.yml
+        targetDir: abstract/variables/theme
+  autoPrefixerBrowsers:
+    - "last 2 versions"
+  includePaths: []
+
+#
+# SVG Sprite configuration
+#
+svgSprite:
+  enabled: true
+  source: "src/icons"

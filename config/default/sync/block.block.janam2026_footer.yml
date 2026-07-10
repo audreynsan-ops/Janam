@@ -1,0 +1,53 @@
+uuid: 028e8a29-3e39-40d3-a137-04b80f4e4a58
+langcode: fr
+status: true
+dependencies:
+  config:
+    - system.menu.footer
+  module:
+    - a12s_theme_builder
+    - system
+  theme:
+    - janam2026
+third_party_settings:
+  a12s_theme_builder:
+    menu_attributes:
+      attributes:
+        -
+          element: ul
+          attribute: class
+          value: menu
+          settings:
+            aria_attribute:
+              name: aria-autocomplete
+        -
+          element: li
+          attribute: class
+          value: menu-item
+          settings:
+            aria_attribute:
+              name: aria-autocomplete
+        -
+          element: a
+          attribute: class
+          value: menu-link
+          settings:
+            aria_attribute:
+              name: aria-autocomplete
+_core:
+  default_config_hash: s-DwHF_n3Lalk4evVk9Rsw9IGN3A-U8BOROuqxmzz_s
+id: janam2026_footer
+theme: janam2026
+region: footer
+weight: -5
+provider: null
+plugin: 'system_menu_block:footer'
+settings:
+  id: 'system_menu_block:footer'
+  label: 'Footer menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

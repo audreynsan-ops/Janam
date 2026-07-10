@@ -1,0 +1,8 @@
+uuid: 60945e1c-f9ed-4abc-b4b7-2bd5865b1413
+langcode: fr
+status: true
+dependencies: {  }
+id: native
+label: 'Natif (PHP mail)'
+plugin: native
+configuration: {  }

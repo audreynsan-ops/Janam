@@ -1,0 +1,20 @@
+.alert {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  padding: .5rem;
+}
+
+.alert-status {
+  background-color: var(--green-3);
+  border: 1px solid var(--green-1);
+}
+
+.alert-warning {
+  background-color: #f2ebe1;
+  border: 1px solid #d8a15b;
+}
+
+.alert-danger {
+  background-color: #eee3e3;
+  border: 1px solid red;
+}

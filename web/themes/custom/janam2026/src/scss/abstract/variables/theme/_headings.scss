@@ -1,0 +1,22 @@
+//
+// Heading properties
+//
+
+@use "main";
+@use "root";
+
+$headings-color: main.$body-color;
+$headings-font-family: root.$font-family-base;
+$headings-margin-bottom: (
+  "xs": .625rem,
+  "lg": 1.25rem,
+);
+$headings-font-weight: 300;
+$headings-text-transform: unset;
+$headings-line-height: 1.4;
+$h1-font-size: 2.5rem;
+$h2-font-size: 2.125rem;
+$h3-font-size: 1.8rem;
+$h4-font-size: 1.6rem;
+$h5-font-size: 1.3rem;
+$h6-font-size: 1.2rem;

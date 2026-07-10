@@ -1,0 +1,88 @@
+/**
+ * Stack Icons mixin.
+ *
+ * @param {String} $icon - Name of icon.
+ * @param {String} $pseudo [before] - `before` | `after` The pseudo element to place the icon in.
+ * @todo Allow `$pseudo: false` to be declared so we don't have to use a pseudo element if we don't want to.
+ * @param {Bool} $text-replace [false]
+ * @param {String} $height
+ * @param {String} $width
+ * @param {String} $color [inherit]
+ * @param {String} $display [inline-block]
+ *
+ * @example scss
+ * .class {
+ *   @include stack-icon('close');
+ * }
+ */
+/**
+ * Stack Icons mask mixin.
+ */
+/**
+ * Write icon properties from a map.
+ *
+ * @param {Map} $map - Map of properties.
+ */
+#block-janam2026-main-menu {
+  display: none;
+}
+@media (min-width: 992px) {
+  #block-janam2026-main-menu {
+    display: block;
+  }
+}
+#block-janam2026-main-menu .accordion {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+#block-janam2026-main-menu .accordion .disclosure-panel-content {
+  padding: 0;
+}
+#block-janam2026-main-menu .accordion-toggle {
+  background: transparent;
+}
+#block-janam2026-main-menu .accordion-toggle:after {
+  content: "";
+  background-color: black;
+  display: inline-block;
+  height: var(--stack-icon-height);
+  -webkit-mask-position: center;
+          mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+          mask-size: cover;
+  overflow: hidden;
+  width: var(--stack-icon-width);
+  -webkit-mask-image: var(--stack-icon-arrow-down-url);
+          mask-image: var(--stack-icon-arrow-down-url);
+  font-size: 0.4rem;
+  -webkit-transition: 0.3s -webkit-transform ease-in-out;
+  transition: 0.3s -webkit-transform ease-in-out;
+  transition: 0.3s transform ease-in-out;
+  transition: 0.3s transform ease-in-out, 0.3s -webkit-transform ease-in-out;
+}
+#block-janam2026-main-menu .accordion-toggle[aria-expanded=true]:after {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+#block-janam2026-main-menu .accordion-toggle .menu-link {
+  margin-right: 0.4rem;
+}
+#block-janam2026-main-menu .menu-level-0 {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+}
+#block-janam2026-main-menu .menu-item-0 > .sdc-accordion > .accordion > .disclosure-panel {
+  background-color: var(--gray);
+  -webkit-box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+  grid-template-columns: -webkit-min-content;
+  grid-template-columns: min-content;
+  text-align: center;
+  position: absolute;
+  top: 100%;
+}
+/*# sourceMappingURL=menu-main.css.map */

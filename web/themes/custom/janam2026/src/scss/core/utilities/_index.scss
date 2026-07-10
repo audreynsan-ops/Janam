@@ -1,0 +1,93 @@
+@use "sass:meta";
+@use "../../abstract/functions/variables-helpers" as vh;
+
+$option-enable-align: true !default;
+
+@if $option-enable-align {
+  @include meta.load-css("align");
+}
+
+@include meta.load-css("background-colors", vh.gather-global-variables(("colors": "background-colors")));
+
+@include meta.load-css("borders", vh.gather-global-variables((
+  "colors": "border-colors",
+  "border-width": "border-width",
+  "border-radius-sm": "border-radius-sm",
+  "border-radius": "border-radius"
+)));
+
+@include meta.load-css("buttons", vh.gather-global-variables((
+  "button-colors": "btn-colors",
+  "button-bg-colors": "btn-bg-colors",
+  "button-border-colors": "btn-border-colors",
+  "button-hover-colors": "btn-hover-colors",
+  "button-hover-bg-colors": "btn-hover-bg-colors",
+  "button-hover-border-colors": "btn-hover-border-colors",
+)));
+
+@include meta.load-css("container", vh.gather-global-variables(("max-widths": "container-max-widths")));
+
+@include meta.load-css("display", vh.gather-global-variables((
+  "enable-print": "enable-display-print",
+  "properties": "display-properties",
+  "breakpoints": "display-breakpoints",
+  "prefix": "display-prefix",
+)));
+
+@include meta.load-css("flex", vh.gather-global-variables((
+  "enable-flex-fill": "enable-flex-fill",
+  "enable-flex-reverse": "enable-flex-reverse",
+  "breakpoints": "flex-breakpoints",
+  "align-items-options": "align-items-options",
+  "justify-items-options": "justify-items-options",
+  "align-content-options": "align-content-options",
+  "justify-content-options": "justify-content-options",
+  "align-self-options": "align-self-options",
+  "justify-self-options": "justify-self-options",
+)));
+
+@include meta.load-css("grid", vh.gather-global-variables((
+  "max-columns": "grid-max-columns",
+  "breakpoints": "grid-breakpoints",
+  "gap-breakpoints": "grid-gap-breakpoints",
+  "gap-default": "$grid-gap",
+  "gap-values": "grid-gap-values",
+  "properties": "grid-gap-properties",
+)));
+
+@include meta.load-css("headings", vh.gather-global-variables((
+  "enable-heading-classes": "enable-heading-classes",
+  "headings-max-level": "headings-max-level",
+)));
+
+@include meta.load-css("interactions", vh.gather-global-variables(("user-selects": "user-selects")));
+
+@include meta.load-css("link", vh.gather-global-variables((
+  "color": "link-color",
+  "color-hover": "link-color-hover",
+)));
+
+@include meta.load-css("overflow", vh.gather-global-variables(("overflows": "overflows")));
+
+@include meta.load-css("position", vh.gather-global-variables(("positions": "positions")));
+
+@include meta.load-css("screenreaders");
+
+@include meta.load-css("sizing", vh.gather-global-variables((
+  "abbreviations": "sizing-abbreviations",
+  "breakpoints": "sizing-breakpoints",
+  "sizes": "sizes",
+)));
+
+@include meta.load-css("spacing", vh.gather-global-variables((
+  "abbreviations": "spacing-abbreviations",
+  "breakpoints": "spacing-breakpoints",
+  "spacers": "spacers",
+)));
+
+@include meta.load-css("text", vh.gather-global-variables((
+  "align-breakpoints": "text-align-breakpoints",
+  "text-colors": "text-colors",
+)));
+
+@include meta.load-css("visibility");

@@ -1,0 +1,10 @@
+{% set classes = [
+  'form-item',
+  'form-type-' ~ type|clean_class,
+  'form-item--' ~ name|clean_class,
+  errors ? 'form-item--error',
+] %}
+
+{% include '@system/form-element.html.twig' with ({
+  attributes: attributes.addClass(classes)
+}) %}

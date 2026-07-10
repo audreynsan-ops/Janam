@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+# Gitlab CI
+.gitlab-ci.yml
+
+# Developer files
+**/.csslintrc
+**/.editorconfig
+**/.eslintignore
+**/.eslintrc.json
+**/.gitattributes
+**/*.scss
+
+# Exclude drupal files
+**/*.php
+**/*.json
+**/*.yaml
+
+**/*.txt
+**/*.log
+**/*.engine
+**/*.inc
+**/*.info
+**/*.install
+**/*.module
+**/*.profile
+**/*.po
+**/*.sh
+**/*.sql
+**/*.theme
+**/*.tpl.php
+**/*.twig
+**/*.xtmpl

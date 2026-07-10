@@ -1,0 +1,66 @@
+//
+// Colors
+//
+
+
+
+//
+// Grayscale
+//
+
+$transparent: transparent;
+$white: white;
+$gray-100: #F8F5F0;
+$gray-300: #EDE4DC;
+$gray-500: #A8ABAF;
+$gray-600: #8E8E8E;
+$gray-900: #282828;
+$black: black;
+
+//
+// Palette
+//
+
+$green-1: #445849;
+$green-2: #4E6654;
+$green-3: #EDF2EE;
+$or-1: #C2A478;
+$or-2: #D4B896;
+$or-3: #E8D5BC;
+$brown-1: #2A2420;
+$brown-2: #6A5E54;
+$brown-3: #B0A498;
+
+//
+// Theme main colors
+//
+
+$primary: $green-1;
+$secondary: #F8F5F0;
+$info: #E8D5BC;
+$error: #dc3545;
+$warning: #ffc107;
+$success: #28a745;
+$light: $gray-100;
+$gray: $gray-300;
+$dark: $gray-900;
+
+//
+// Variants
+//
+// Those colors are used to create variants for background, buttons...
+//
+
+$border-colors: (
+  "white": $white,
+  "dark": $dark,
+  "primary": $primary,
+);
+$background-colors: (
+  "transparent": transparent,
+  "white": $white,
+  "light": $light,
+  "gray": $gray,
+  "black": $black,
+  "primary": $primary,
+);
